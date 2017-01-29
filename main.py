@@ -1,6 +1,42 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
+class RelationalModel(object):
+    def __init__(self,universe,relations):
+        """
+        Relational Model
+        Input: a universe list, relations dict
+        """
+        self.universe= list(universe)
+        self.relations = relations
+
+    def subuniverses(self,size):
+        for subu in combinations(self.universe,size):
+            yield subu
+
+
+    def __repr__(self):
+        return ("RelationalModel(universe=%s,relations=%s)"%(self.universe,self.relations))
+    
+class Relation(object):
+    """
+    Relation
+    """
+    def __init__(self,sym,arity):
+        self.sym = sym
+        self.arity = arity
+        self.r = set()
+    
+    def add(self, t):
+        self.r.add(t)
+    
+    def __repr__(self):
+        return "Relation " + self.sym + " " + str(self.r)
+    
+    def __call__(self, *args):
+        return args in self.r
+
+
 class ParserError(Exception):
     """
     Sintax error while parsing
@@ -20,6 +56,7 @@ def stdin_parser():
     """
     linenumber = 1
     #Rel_Model() TODO
+    relations = {}
     try:
         universe = map(int,input().split()) # first line, universe
         linenumber += 1
@@ -45,14 +82,17 @@ def stdin_parser():
                 linenumber += 1
             assert input() == "", ("Relation must finish with empty line at #%s line"%linenumber) # relation MUST finish with empty line
             linenumber += 1
+            relations[sym] = relation
     except EOFError:
         raise ParserError(linenumber,"Unexpected EOF")
+    
+    return RelationalModel(universe,relations)
             
             
         
 
 def main():
-    stdin_parser()
+    print (stdin_parser())
 
     
 
