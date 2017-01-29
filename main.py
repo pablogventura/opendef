@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
+
+from itertools import combinations
+
+
 class RelationalModel(object):
     def __init__(self,universe,relations):
         """
@@ -35,6 +39,17 @@ class Relation(object):
     
     def __call__(self, *args):
         return args in self.r
+    
+    def table(self, subuniverse):
+        """
+        Relation table reducted to subuniverse
+        """
+        result = []
+        subuniverse= set(subuniverse)
+        for t in self.r:
+            if set(t) <= subuniverse:
+                result.append(t)
+        return result
 
 
 class ParserError(Exception):
@@ -55,7 +70,6 @@ def stdin_parser():
     Returns parsed Rel_Model from stdin
     """
     linenumber = 1
-    #Rel_Model() TODO
     relations = {}
     try:
         universe = map(int,input().split()) # first line, universe
@@ -92,7 +106,9 @@ def stdin_parser():
         
 
 def main():
-    print (stdin_parser())
+    g=stdin_parser()
+    print(g)
+    
 
     
 
