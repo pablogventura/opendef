@@ -28,25 +28,25 @@ class RelationalModel(object):
     def __repr__(self):
         return ("RelationalModel(universe=%s,relations=%s)"%(self.universe,self.relations))
     
-    @lru_cache(maxsize=None)
-    def rels_sizes(self,base_relations):
-        return {r:len(self.relations[r]) for r in base_relations}
+    #@lru_cache(maxsize=2)
+    def rels_sizes(self,subtype):
+        return {r:len(self.relations[r]) for r in subtype}
     
-    @lru_cache(maxsize=None)    
-    def minion_tables(self,base_relations):
+    #@lru_cache(maxsize=None)    
+    def minion_tables(self,subtype):
         result = ""
-        for r in base_relations:
+        for r in subtype:
             result += "%s %s %s\n" % (r, len(self.relations[r]), self.relations[r].arity)
             for t in self.relations[r]:
                 result += " ".join(str(self.universe.index(x)) for x in t) + "\n"
             result += "\n"
         return result[:-1]
         
-    def minion_constraints(self,base_relations):
+    def minion_constraints(self,subtype):
         result = ""
         #table([f[0],f[0],f[0]],bv)
         result = ""
-        for r in base_relations:
+        for r in subtype:
             for t in self.relations[r]:
                 result += "table([f["
                 result += "],f[".join(str(self.universe.index(x)) for x in t)
@@ -54,3 +54,7 @@ class RelationalModel(object):
         return result        
     def __len__(self):
         return len(self.universe)
+    def spectrum(self,subtype):
+        result=set()
+        return result.union(*[self.relations[r].spectrum() for r in subtype])
+        

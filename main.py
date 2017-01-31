@@ -2,24 +2,22 @@
 #!/usr/bin/env python   
 from minion import is_isomorphic
 from parser import stdin_parser
-from minion import automorphisms, isomorphisms
+from minion import automorphisms, isomorphisms, is_isomorphic_to_any
+
+class Counterexample(Exception):
+    def __init__(self,ce):
+        self.ce = ce
 
 def main():
     g=stdin_parser()
-    l=g.substructures(3)
-    a=next(l)
-    b=next(l)
-    print(a)
-    print(b)
-    print(list(isomorphisms(a,b)))
-    #print(list(automorphisms(g)))
-    #print(is_isomorphic(g,g))
+    print(is_open_rel(g,["U"]))
     
-
 
 def is_open_rel(model, target_rels):
     
-    spectrum = calc_spectrum(sum(map(lambda x: x.table(),target_rels),[]))
+    base_rels = [r for r in model.relations if r not in target_rels]
+    print(base_rels)
+    spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]
 
     S = set()
@@ -31,13 +29,13 @@ def is_open_rel(model, target_rels):
             current = next(subsgen)
         except StopIteration:
             break
-        iso = check_isos(current, S)
+        iso = is_isomorphic_to_any(current, S, base_rels)
         if iso:
             if not iso.iso_wrt(target_rels):
                 raise Counterexample(iso)
         else:
-            for aut in current.automorphisms():
-                if not aut.iso_wrt(target_rels):
+            for aut in automorphisms(current,base_rels):
+                if not aut.aut_wrt(target_rels):
                     raise Counterexample(aut)
             S.add(current)
             try:

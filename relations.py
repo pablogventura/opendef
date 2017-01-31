@@ -25,6 +25,12 @@ class Relation(object):
         
     def __iter__(self):
         return iter(self.r)
+        
+    def spectrum(self):
+        result = set()
+        for t in self:
+            result.add(len(set(t)))
+        return result
     
     def restrict(self,subuniverse):
         result = Relation(self.sym,self.arity)

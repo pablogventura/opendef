@@ -134,12 +134,12 @@ class MinionSol(object):
 
 
 
-def automorphisms(model,base_relations):
+def automorphisms(model,subtype):
     result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(model),len(model)-1)
     result += "**TUPLELIST**\n"
-    result += model.minion_tables(base_relations)
+    result += model.minion_tables(subtype)
     result += "**CONSTRAINTS**\n"
-    result += model.minion_constraints(base_relations)
+    result += model.minion_constraints(subtype)
     result += "alldiff([f["
     result += "],f[".join(str(i) for i in range(len(model)))
     result += "]])\n"
@@ -147,21 +147,21 @@ def automorphisms(model,base_relations):
     
     
     
-    return MinionSol(result,allsols=True,fun=lambda aut:(Automorphism({model.universe[k]:model.universe[aut[k]] for k in aut})))
+    return MinionSol(result,allsols=True,fun=lambda aut:(Automorphism({model.universe[k]:model.universe[aut[k]] for k in aut},model,subtype)))
 
 
-def isomorphisms(source,target,base_relations,allsols=True):
+def isomorphisms(source,target,subtype,allsols=True):
     if len(source)!=len(target):
         return iter(()) # generador vacio
     
-    if source.rels_sizes(base_relations) != source.rels_sizes(base_relations):
+    if source.rels_sizes(subtype) != source.rels_sizes(subtype):
         return iter(()) # generador vacio
     
     result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(source),len(target)-1)
     result += "**TUPLELIST**\n"
-    result += target.minion_tables(base_relations)
+    result += target.minion_tables(subtype)
     result += "**CONSTRAINTS**\n"
-    result += source.minion_constraints(base_relations)
+    result += source.minion_constraints(subtype)
     result += "alldiff([f["
     result += "],f[".join(str(i) for i in range(len(source)))
     result += "]])\n"
@@ -169,33 +169,35 @@ def isomorphisms(source,target,base_relations,allsols=True):
     
     
     
-    return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso})))
+    return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
 
 
 
 
 
-def is_isomorphic(source, target, model):
+def is_isomorphic(source, target, subtype):
 
-    model.relations
-    i = isomorphisms(source, target, subtype, allsols=False, without=without)
+    i = isomorphisms(source,target,subtype,allsols=False)
     if i:
         return i[0]
     else:
         return False
 
 
-def is_isomorphic_to_any(source, targets, subtype, cores=10, without=[]):
+def is_isomorphic_to_any(source, targets, subtype):
     """
     Devuelve un iso si source es isomorfa a algun target
     sino, false. Usa multiples preguntas a minion en paralelo.
     """
     if not targets:
         return False
-
-    i = ParallelMorphMinionSol(
-        Isomorphism, subtype, source, targets, cores=cores, without=without)
-    return i.solve()
+    
+    for target in targets:
+        iso = is_isomorphic(source,target,subtype)
+        if iso:
+            return iso
+        else:
+            return False
 
 
 if __name__ == "__main__":
