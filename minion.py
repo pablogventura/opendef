@@ -152,10 +152,10 @@ def automorphisms(model,subtype):
 
 def isomorphisms(source,target,subtype,allsols=True):
     if len(source)!=len(target):
-        return iter(()) # generador vacio
+        return [] # generador vacio
     
     if source.rels_sizes(subtype) != source.rels_sizes(subtype):
-        return iter(()) # generador vacio
+        return [] # generador vacio
     
     result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(source),len(target)-1)
     result += "**TUPLELIST**\n"
@@ -179,7 +179,8 @@ def is_isomorphic(source, target, subtype):
 
     i = isomorphisms(source,target,subtype,allsols=False)
     if i:
-        return i[0]
+        print(i)
+        return next(iter(i))
     else:
         return False
 

@@ -3,6 +3,7 @@
 from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any
+from itertools import chain
 
 class Counterexample(Exception):
     def __init__(self,ce):
@@ -10,8 +11,29 @@ class Counterexample(Exception):
 
 def main():
     g=stdin_parser()
-    print(is_open_rel(g,("U",)))
+    print(is_open_rel(g,("T0",)))
     
+
+class GenStack(object):
+    def __init__(self, generator):
+        self.stack = [generator]
+    
+    def add(self,generator):
+        self.stack.append(generator)
+    
+    def next(self):
+        result = None
+        while result is None:
+            try:
+                result = next(self.stack[-1])
+            except IndexError:
+                raise StopIteration
+            except StopIteration:
+                del self.stack[-1]
+        return result
+            
+        
+
 
 def is_open_rel(model, target_rels):
     
@@ -22,13 +44,17 @@ def is_open_rel(model, target_rels):
 
     S = set()
     
-    subsgen = model.substructures(size)
+    genstack = GenStack(model.substructures(size))
     
     while True:
         try:
-            current = next(subsgen)
+            current = genstack.next()
+            print("avanza")
         except StopIteration:
             break
+        except:
+            print (type(subsgen))
+            assert False
         iso = is_isomorphic_to_any(current, S, base_rels)
         if iso:
             if not iso.iso_wrt(target_rels):
@@ -40,7 +66,8 @@ def is_open_rel(model, target_rels):
             S.add(current)
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
-                subsgen = chain(current.substructures, subsgen)
+                genstack.add(current.substructures(size))
+                print("enganchado")
             except StopIteration:
                 # no tiene mas hijos
                 pass
