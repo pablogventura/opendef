@@ -10,12 +10,12 @@ class Counterexample(Exception):
 
 def main():
     g=stdin_parser()
-    print(is_open_rel(g,["U"]))
+    print(is_open_rel(g,("U",)))
     
 
 def is_open_rel(model, target_rels):
     
-    base_rels = [r for r in model.relations if r not in target_rels]
+    base_rels = tuple((r for r in model.relations if r not in target_rels))
     print(base_rels)
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]

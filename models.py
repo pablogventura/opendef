@@ -28,11 +28,11 @@ class RelationalModel(object):
     def __repr__(self):
         return ("RelationalModel(universe=%s,relations=%s)"%(self.universe,self.relations))
     
-    #@lru_cache(maxsize=2)
+    @lru_cache(maxsize=2)
     def rels_sizes(self,subtype):
         return {r:len(self.relations[r]) for r in subtype}
     
-    #@lru_cache(maxsize=None)    
+    @lru_cache(maxsize=None)    
     def minion_tables(self,subtype):
         result = ""
         for r in subtype:
