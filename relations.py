@@ -19,15 +19,17 @@ class Relation(object):
     
     def __call__(self, *args):
         return args in self.r
+
+    def __len__(self):
+        return len(self.r)
+        
+    def __iter__(self):
+        return iter(self.r)
     
-    def table(self, subuniverse):
-        """
-        Relation table reducted to subuniverse
-        """
-        result = []
+    def restrict(self,subuniverse):
+        result = Relation(self.sym,self.arity)
         subuniverse= set(subuniverse)
         for t in self.r:
             if set(t) <= subuniverse:
-                result.append(t)
-        return result
-
+                result.add(t)
+        return result        

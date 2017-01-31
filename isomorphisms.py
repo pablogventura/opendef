@@ -3,12 +3,27 @@
 
 
 class Isomorphism(object):
-    def __init__(self,renaming,values):
-        self.renaming = list(renaming)
-        self.values = list(values)
+    def __init__(self,d):
+        self.values = d
     def __call__(self, x):
-        return self.renaming[self.values[self.renaming.index(x)]]
+        return self.d[x]
+    def __repr__(self):
+        return "Isomorphism(%s)" % self.values
+    def iso_wrt(self,target_rels):
+        for r in target_rels:
+            for t in r:
+                if not r(tuple(self(x) for x in t)):
+                    return False
+        return True
+
 
 class Automorphism(Isomorphism):
-    pass
+    def __repr__(self):
+        return "Automorphism(%s)" % self.values
+    def aut_wrt(self,target_rels,model):
+        for r in target_rels:
+            for t in r.restrict(model.universe):
+                if not r(tuple(self(x) for x in t)):
+                    return False
+        return True
 
