@@ -43,4 +43,8 @@ def positive_generator(cardinality,rels):
         print("T"+srel)
 
 if __name__ == "__main__":
-    generator(50,[((50**3)//2,3)],[((50**3)//2,3)])
+    u=200
+    a=3
+    generator(u,[((u**a)//2,a)],[((u**a)//2,a)])
+    #positive_generator(50,[((50**3)-2000,3)])
+    #positive_generator(20,[((20**4)//2,4)])

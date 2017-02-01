@@ -39,6 +39,7 @@ def is_open_rel(model, target_rels):
     
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
+    print(spectrum)
     size = spectrum[0]
 
     S = set()
@@ -63,6 +64,7 @@ def is_open_rel(model, target_rels):
             S.add(current)
             if len(S) % 1000 == 0:
                 print(len(S))
+                #pass
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                 genstack.add(current.substructures(size))
