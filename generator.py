@@ -43,8 +43,18 @@ def positive_generator(cardinality,rels):
         print("T"+srel)
 
 if __name__ == "__main__":
-    u=200
-    a=3
-    generator(u,[((u**a)//2,a)],[((u**a)//2,a)])
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("-u", "--universe", dest="universe")
+    parser.add_option("-a", "--arity", dest="arity")
+    parser.add_option("-d", "--density", dest="density")
+
+    (options, args) = parser.parse_args()
+    
+    universe = int(options.universe)
+    arity = int(options.arity)
+    density = float(options.density)
+    
+    positive_generator(universe,[(int((universe**arity)*density),arity)])
     #positive_generator(50,[((50**3)-2000,3)])
     #positive_generator(20,[((20**4)//2,4)])

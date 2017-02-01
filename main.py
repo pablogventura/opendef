@@ -11,8 +11,13 @@ class Counterexample(Exception):
 
 def main():
     g=stdin_parser()
-    print(is_open_rel(g,("T0",)))
-    
+    try:
+        is_open_rel(g,("T0",))
+        print("DEFINABLE")
+    except Counterexample as ce:
+        print("NOT DEFINABLE")
+        print("Counterexample=%s" % ce.iso)
+        
 
 class GenStack(object):
     def __init__(self, generator):
@@ -39,9 +44,8 @@ def is_open_rel(model, target_rels):
     
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
-    print(spectrum)
     size = spectrum[0]
-
+    print ("Spectrum=%s"%spectrum)
     S = set()
     
     genstack = GenStack(model.substructures(size))
@@ -62,15 +66,14 @@ def is_open_rel(model, target_rels):
                 if not aut.aut_wrt(target_rels):
                     raise Counterexample(aut)
             S.add(current)
-            if len(S) % 1000 == 0:
-                print(len(S))
-                #pass
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                 genstack.add(current.substructures(size))
             except StopIteration:
                 # no tiene mas hijos
                 pass
+    print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
+    
     return True
 
 
