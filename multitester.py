@@ -1,14 +1,13 @@
 import os
 
-universe = 30
 path = "positives/"
-
+timeout = "30m"
 
 
 import glob, os
-for f in glob.glob(path + "p6_30_2_0.1.model"):
+for f in glob.glob(path + "*.model"):
     print ("Processing %s" % f)
     out = f[:-6]+".result"
-    os.system("{ /usr/bin/time -v python main.py < %s;} >%s"% (f,out))# 2>>%s" % (f,out,out))
+    os.system("{ /usr/bin/time -v timeout --signal=SIGINT %s python main.py < %s;} >%s 2>>%s" % (timeout,f,out,out))
 
 print("PROCESSING FINISHED")

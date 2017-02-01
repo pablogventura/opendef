@@ -41,7 +41,6 @@ class GenStack(object):
 
 
 def is_open_rel(model, target_rels):
-    
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]
@@ -49,14 +48,12 @@ def is_open_rel(model, target_rels):
     S = set()
     
     genstack = GenStack(model.substructures(size))
-    
+
     while True:
         try:
             current = genstack.next()
         except StopIteration:
             break
-        except:
-            assert False
         iso = is_isomorphic_to_any(current, S, base_rels)
         if iso:
             if not iso.iso_wrt(target_rels):
