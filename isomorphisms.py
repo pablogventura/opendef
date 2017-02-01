@@ -18,7 +18,7 @@ class Isomorphism(object):
             return False
         for r in subtype:
             for t in self.source.relations[r]:
-                if not self.target.relations[r](tuple(self(x) for x in t)):
+                if not self.target.relations[r](*tuple(self(x) for x in t)):
                     return False
         return True
 
@@ -31,11 +31,11 @@ class Automorphism(object):
     def __call__(self, x):
         return self.values[x]
     def __repr__(self):
-        return "Automorphism(%s) from {%s} to {%s}" % (self.values,self.source,self.target)
+        return "Automorphism(%s) from {%s}" % (self.values,self.model)
     def aut_wrt(self,subtype):
         for r in subtype:
             for t in self.model.relations[r]:
-                if not self.model.relations[r](tuple(self(x) for x in t)):
+                if not self.model.relations[r](*tuple(self(x) for x in t)):
                     return False
         return True
 

@@ -154,7 +154,7 @@ def isomorphisms(source,target,subtype,allsols=True):
     if len(source)!=len(target):
         return [] # generador vacio
     
-    if source.rels_sizes(subtype) != source.rels_sizes(subtype):
+    if source.rels_sizes(subtype) != target.rels_sizes(subtype):
         return [] # generador vacio
     
     result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(source),len(target)-1)
@@ -179,8 +179,7 @@ def is_isomorphic(source, target, subtype):
 
     i = isomorphisms(source,target,subtype,allsols=False)
     if i:
-        print(i)
-        return next(iter(i))
+        return i[0]
     else:
         return False
 

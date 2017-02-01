@@ -38,7 +38,6 @@ class GenStack(object):
 def is_open_rel(model, target_rels):
     
     base_rels = tuple((r for r in model.relations if r not in target_rels))
-    print(base_rels)
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]
 
@@ -49,11 +48,9 @@ def is_open_rel(model, target_rels):
     while True:
         try:
             current = genstack.next()
-            print("avanza")
         except StopIteration:
             break
         except:
-            print (type(subsgen))
             assert False
         iso = is_isomorphic_to_any(current, S, base_rels)
         if iso:
@@ -64,10 +61,11 @@ def is_open_rel(model, target_rels):
                 if not aut.aut_wrt(target_rels):
                     raise Counterexample(aut)
             S.add(current)
+            if len(S) % 1000 == 0:
+                print(len(S))
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                 genstack.add(current.substructures(size))
-                print("enganchado")
             except StopIteration:
                 # no tiene mas hijos
                 pass
