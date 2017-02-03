@@ -1,0 +1,46 @@
+Spectrum=[4, 3, 2, 1]
+Traceback (most recent call last):
+  File "main.py", line 80, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 62, in is_open_rel
+    for aut in automorphisms(current,base_rels):
+  File "/home/pablo/Dropbox/relationaldef/minion.py", line 150, in automorphisms
+    return MinionSol(result,allsols=True,fun=lambda aut:(Automorphism({model.universe[k]:model.universe[aut[k]] for k in aut},model,subtype)))
+  File "/home/pablo/Dropbox/relationaldef/minion.py", line 41, in __init__
+    stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
+  File "/usr/lib/python3.4/subprocess.py", line 859, in __init__
+    restore_signals, start_new_session)
+  File "/usr/lib/python3.4/subprocess.py", line 1395, in _execute_child
+    restore_signals, start_new_session, preexec_fn)
+KeyboardInterrupt
+Exception ignored in: <bound method MinionSol.__del__ of <minion.MinionSol object at 0x7f26c0670f98>>
+Traceback (most recent call last):
+  File "/home/pablo/Dropbox/relationaldef/minion.py", line 132, in __del__
+    if not self.EOF:
+AttributeError: 'MinionSol' object has no attribute 'EOF'
+Command exited with non-zero status 124
+	Command being timed: "timeout --signal=SIGINT 30m python main.py"
+	User time (seconds): 829.01
+	System time (seconds): 730.75
+	Percent of CPU this job got: 86%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 30:01.47
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 357928
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 109994361
+	Voluntary context switches: 798952
+	Involuntary context switches: 160617
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 124
