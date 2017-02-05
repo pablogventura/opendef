@@ -87,5 +87,41 @@ for arity in range(2,5):
             data[arity][density].average_time=None
 
 
-print (data)
 print("PROCESSING FINISHED")
+print("")
+print (data)
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=[]
+y=[]
+for density in [0.1,0.2,0.3,0.4,0.5]:
+    x.append(density)
+    y.append(data[2][density].average_time)
+
+plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
+
+x=[]
+y=[]
+for density in [0.1,0.2,0.3,0.4,0.5]:
+    x.append(density)
+    y.append(data[3][density].average_time)
+
+plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
+
+x=[]
+y=[]
+for density in [0.1,0.2,0.3,0.4,0.5]:
+    x.append(density)
+    if data[4][density].average_time:
+        y.append(data[4][density].average_time)
+    else:
+        y.append(0)
+    print(data[4][density].average_time)
+plt.plot(x, y, color="blue", linewidth=1.0, linestyle=":")
+
+plt.yscale('log')
+plt.show()
+
