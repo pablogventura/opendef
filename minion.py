@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 # Minion interface based on Peter Jipsen 2011-03-26 alpha version
-
+import os
 import codecs
 import subprocess as sp
 from select import poll, POLLIN
@@ -29,7 +29,7 @@ class MinionSol(object):
         self.fun = fun
         self.allsols = allsols
 
-        self.input_filename = config.minion_path + "input_minion%s" % self.id
+        self.input_filename = config.minion_path + "input_minion%s_%s" % (self.id,os.getpid())
         files.create_pipe(self.input_filename) # TODO SACAR PIPE
 
         minionargs = ["-printsolsonly", "-randomseed", "0"]
