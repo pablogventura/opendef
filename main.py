@@ -16,7 +16,7 @@ def main():
         print("DEFINABLE")
     except Counterexample as ce:
         print("NOT DEFINABLE")
-        print("Counterexample=%s" % ce.iso)
+        print("Counterexample=%s" % ce.ce)
         
 
 class GenStack(object):

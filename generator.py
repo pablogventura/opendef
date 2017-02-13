@@ -42,6 +42,21 @@ def positive_generator(cardinality,rels):
         print("R"+srel)
         print("T"+srel)
 
+def negative_generator(cardinality,rels):
+    print(" ".join(str(i) for i in range(cardinality)))
+    print("")
+    rindex=0
+    for tuples,arity in rels:
+        r=set()
+        srel=("%s %s %s\n" % (rindex,tuples,arity))
+        while tuples != len(r):
+            t=tuple((random.randint(0,cardinality-1) for i in range(arity)))
+            if t not in r:
+                srel+=" ".join(str(i) for i in t) + "\n"
+                r.add(t)
+        print("R"+srel)
+        print("T"+srel)
+
 if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser()
@@ -55,6 +70,7 @@ if __name__ == "__main__":
     arity = int(options.arity)
     density = float(options.density)
     
-    positive_generator(universe,[(int((universe**arity)*density),arity)])
+    #positive_generator(universe,[(int((universe**arity)*density),arity)])
+    generator(universe,[(int((universe**arity)*density),arity)],[(1,arity)])
     #positive_generator(50,[((50**3)-2000,3)])
     #positive_generator(20,[((20**4)//2,4)])

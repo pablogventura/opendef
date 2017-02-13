@@ -1,6 +1,6 @@
 import os
 
-path = "positives/"
+path = "positives12/"
 timeout = "30m"
 
 

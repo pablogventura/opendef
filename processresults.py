@@ -3,7 +3,7 @@ import os
 from types import SimpleNamespace
 
 
-path = "positives/"
+path = "positives4/"
 
 data = defaultdict(lambda : defaultdict(lambda : SimpleNamespace(max_s=float("-inf"),
                                                                  min_s=float("inf"),
@@ -101,7 +101,7 @@ for density in [0.1,0.2,0.3,0.4,0.5]:
     x.append(density)
     y.append(data[2][density].average_time)
 
-plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
+#plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
 
 x=[]
 y=[]
@@ -109,19 +109,19 @@ for density in [0.1,0.2,0.3,0.4,0.5]:
     x.append(density)
     y.append(data[3][density].average_time)
 
-plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
+#plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
 
 x=[]
 y=[]
 for density in [0.1,0.2,0.3,0.4,0.5]:
     x.append(density)
-    if data[4][density].average_time:
-        y.append(data[4][density].average_time)
+    if data[5][density].average_time:
+        y.append(data[5][density].average_time)
     else:
         y.append(0)
-    print(data[4][density].average_time)
-plt.plot(x, y, color="blue", linewidth=1.0, linestyle=":")
+    print(data[5][density].average_time)
+plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
 
-plt.yscale('log')
+#plt.yscale('log')
 plt.show()
 
