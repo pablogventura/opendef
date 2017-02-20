@@ -63,6 +63,7 @@ def is_open_rel(model, target_rels):
                 if not aut.aut_wrt(target_rels):
                     raise Counterexample(aut)
             S.add(current)
+
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                 genstack.add(current.substructures(size))

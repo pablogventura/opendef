@@ -178,6 +178,7 @@ def isomorphisms(source,target,subtype,allsols=True):
 def is_isomorphic(source, target, subtype):
 
     i = isomorphisms(source,target,subtype,allsols=False)
+    
     if i:
         return i[0]
     else:
@@ -196,8 +197,7 @@ def is_isomorphic_to_any(source, targets, subtype):
         iso = is_isomorphic(source,target,subtype)
         if iso:
             return iso
-        else:
-            return False
+    return False
 
 
 if __name__ == "__main__":
