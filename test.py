@@ -4,19 +4,26 @@ from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any
 from itertools import chain
+from models import RelationalModel
+from relations import Relation
+
 
 class Counterexample(Exception):
     def __init__(self,ce):
         self.ce = ce
 
 def main():
-    g=stdin_parser()
-    try:
-        is_open_rel(g,("T0",))
-        print("DEFINABLE")
-    except Counterexample as ce:
-        print("NOT DEFINABLE")
-        print("Counterexample=%s" % ce.ce)
+    t01 = Relation("T0",2)
+    t02 = Relation("T0",2)
+    r01 = Relation("R0",2)
+    r01.add((0,0))
+    r02 = Relation("R0",2)
+    r02.add((0,0))
+    g1=RelationalModel([0, 2],{'T0': t01, 'R0': r01})
+    g2=RelationalModel([0, 6],{'T0': t02, 'R0': r02})
+
+    
+    print (is_isomorphic_to_any(g2,[g1],["R0"]))
         
 
 class GenStack(object):
@@ -45,35 +52,25 @@ def is_open_rel(model, target_rels):
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]
     print ("Spectrum=%s"%spectrum)
-    isos_count = 0
-    auts_count = 0
     S = set()
     
     genstack = GenStack(model.substructures(size))
 
     while True:
-        if auts_count % 50 == 0:
-            print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
-        if isos_count:
-            print("#Isos=%s" % isos_count)
         try:
             current = genstack.next()
         except StopIteration:
             break
         iso = is_isomorphic_to_any(current, S, base_rels)
         if iso:
-            isos_count += 1
             if not iso.iso_wrt(target_rels):
-                print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
                 raise Counterexample(iso)
         else:
             for aut in automorphisms(current,base_rels):
-                auts_count += 1
                 if not aut.aut_wrt(target_rels):
-                    print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
                     raise Counterexample(aut)
             S.add(current)
-
+            print("agrego %s" % current)
             try:
                 size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                 genstack.add(current.substructures(size))
@@ -81,6 +78,7 @@ def is_open_rel(model, target_rels):
                 # no tiene mas hijos
                 pass
     print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
+    
     return True
 
 
