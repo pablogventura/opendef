@@ -11,7 +11,7 @@ waiting = []
 cores = multiprocessing.cpu_count()
 print ("Detected %s cores..." % cores)
 
-for filein in glob.glob(path + "*2_0.1.model"):
+for filein in glob.glob(path + "*.model"):
 
     fileout = filein[:-6]+".result"
     if not os.path.isfile(fileout) :
