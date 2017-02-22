@@ -3,7 +3,7 @@ import multiprocessing
 import glob, os
 import subprocess as sp
 path = "positives/"
-timeout = "30m"
+timeout = "60m"
 
 running = []
 waiting = []

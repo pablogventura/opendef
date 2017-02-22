@@ -1,8 +1,8 @@
 import os
 
-universe = 60
-path = "positives12/"
-for arity in [2]:
+universe = 30
+path = "positives/"
+for arity in [2,3,4]:
     for density in [0.1,0.2,0.3,0.4,0.5]:
         for i in range(50):
             s = "python generator.py"
