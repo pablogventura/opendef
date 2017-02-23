@@ -2,7 +2,7 @@
 #!/usr/bin/env python   
 from minion import is_isomorphic
 from parser import stdin_parser
-from minion import automorphisms, isomorphisms, is_isomorphic_to_any
+from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from itertools import chain
 
 class Counterexample(Exception):
@@ -52,10 +52,11 @@ def is_open_rel(model, target_rels):
     genstack = GenStack(model.substructures(size))
 
     while True:
-        if auts_count % 50 == 0:
-            print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
-        if isos_count:
-            print("#Isos=%s" % isos_count)
+    
+        #if auts_count % 50 == 0:
+        #    print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
+        #if isos_count:
+        #    print("#Isos=%s" % isos_count)
         try:
             current = genstack.next()
         except StopIteration:
@@ -81,6 +82,16 @@ def is_open_rel(model, target_rels):
                 # no tiene mas hijos
                 pass
     print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
+    for k in range(max(map(len,S))+1):
+        print("%s-diversity=%s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
+    
+    print("*"*80)
+    for h in list(filter(lambda s: len(s)==2,S)):
+        print(h)
+    print("*"*80)
+    print("%s calls to Minion" % MinionSol.count)
+    print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
+    print("#Isos=%s" % isos_count)
     return True
 
 
