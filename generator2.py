@@ -130,9 +130,4 @@ if __name__ == "__main__":
     density = float(options.density)
     
     universe = int((size/(2*arity*density))**(1/arity)+1)
-    print(universe)
-    #positive_generator(universe,[(int((universe**arity)*density),arity)])
-    #negative_generator_wr(universe,[(int((universe**arity)*density),arity)],[(int((universe**arity)*density),arity)])
-    #negative_generator2(universe,density)
-    #positive_generator(50,[((50**3)-2000,3)])
-    #positive_generator(universe,[(int((universe**arity)*density),arity)])
+    positive_generator(universe,[(int((universe**arity)*density),arity)])
