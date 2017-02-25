@@ -3,19 +3,18 @@ import multiprocessing
 import glob, os
 import subprocess as sp
 path = "positives/"
-timeout = "60m"
+timeout = "30m"
 
 running = []
 waiting = []
 
-cores = multiprocessing.cpu_count()
-print ("Detected %s cores..." % cores)
+cores = 3
 
 for filein in glob.glob(path + "*.model"):
 
     fileout = filein[:-6]+".result"
     if not os.path.isfile(fileout) :
-        waiting.append((filein,["/usr/bin/time", "-v", "timeout", "--signal=SIGINT", timeout, "python", "main.py"],fileout))
+        waiting.append((filein,["perf", "stat", "timeout", "--signal=SIGINT", timeout, "python", "main.py"],fileout))
     else:
         print ("File %s already exists" % fileout)
 
