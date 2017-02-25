@@ -32,7 +32,7 @@
 #SBATCH --time 2-10:00:00
 
 ### Lanzado de la tarea
-srun python paralellmultitester.py 3
+srun python3 paralellmultitester.py 3
 
 exit 0
 

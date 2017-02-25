@@ -23,7 +23,7 @@ for filein in sorted(glob.glob(path + "*_%s_*.model"%(arity)),key=num_order,reve
 
     fileout = filein[:-6]+".result"
     if not os.path.isfile(fileout) :
-        waiting.append((filein,["perf", "stat", "timeout", "--signal=SIGINT", timeout, "python", "main.py"],fileout))
+        waiting.append((filein,["perf", "stat", "timeout", "--signal=SIGINT", timeout, "python3", "main.py"],fileout))
     else:
         print ("File %s already exists" % fileout)
 

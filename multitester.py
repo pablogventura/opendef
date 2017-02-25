@@ -5,7 +5,7 @@ timeout = "30m"
 
 
 import glob, os
-for f in glob.glob(path + "*10000_2_0.1.model"):
+for f in glob.glob(path + "*.model"):
     print ("Processing %s" % f)
     out = f[:-6]+".result"
     if not os.path.isfile(out) :
