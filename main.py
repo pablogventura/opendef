@@ -82,11 +82,11 @@ def is_open_rel(model, target_rels):
                 # no tiene mas hijos
                 pass
     print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
-    for k in range(max(map(len,S))+1):
+    for k in range(1,max(map(len,S))+1):
         print("%s-diversity=%s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
-    print("%s calls to Minion" % MinionSol.count)
-    print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
+    print("#Auts=%s" % auts_count)
     print("#Isos=%s" % isos_count)
+    print("%s calls to Minion" % MinionSol.count)
     return True
 
 
