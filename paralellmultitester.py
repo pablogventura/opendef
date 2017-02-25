@@ -1,16 +1,25 @@
-import os
+import os, sys
 import multiprocessing
 import glob, os
 import subprocess as sp
 path = "positives/"
 timeout = "30m"
+import time
 
 running = []
 waiting = []
 
-cores = 3
+cores = 10
+arity=int(sys.argv[1])
 
-for filein in glob.glob(path + "*.model"):
+def num_order(f):
+    f = f[:-6]
+    f= f.split("_")
+    f[0]=f[0].split("/p")[1]
+    f=list(map(float,[f[2],f[1],f[3],f[0]]))
+    return f
+
+for filein in sorted(glob.glob(path + "*_%s_*.model"%(arity)),key=num_order,reverse=True):
 
     fileout = filein[:-6]+".result"
     if not os.path.isfile(fileout) :
@@ -21,7 +30,7 @@ for filein in glob.glob(path + "*.model"):
 
 for i in range(cores):
     try:
-        filein,call,fileout = waiting.pop()
+        filein,call,fileout = waiting.pop(0)
     except IndexError:
         break
     print ("Processing %s" % filein)
@@ -31,6 +40,7 @@ for i in range(cores):
     
 
 while running:
+    time.sleep(1)
     for p,fi,fo in running:
         if p.poll() is not None:
             #delete finished
