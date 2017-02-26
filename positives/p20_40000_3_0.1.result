@@ -1,0 +1,31 @@
+Spectrum=[3, 2, 1]
+Traceback (most recent call last):
+  File "main.py", line 96, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 64, in is_open_rel
+    iso = is_isomorphic_to_any(current, S, base_rels)
+  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
+    iso = is_isomorphic(source,target,subtype)
+  File "/home/pventura/relationaldef/minion.py", line 182, in is_isomorphic
+    if i:
+  File "/home/pventura/relationaldef/minion.py", line 102, in __bool__
+    solution = self.__parse_solution()
+  File "/home/pventura/relationaldef/minion.py", line 51, in __parse_solution
+    str_sol = self.minionapp.stdout.readline().decode('utf-8')
+KeyboardInterrupt
+
+ Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+
+     701989.489534      task-clock (msec)         #    0.390 CPUs utilized          
+         6,664,107      context-switches          #    0.009 M/sec                  
+         1,449,404      cpu-migrations            #    0.002 M/sec                  
+       383,565,881      page-faults               #    0.546 M/sec                  
+ 4,449,097,734,497      cycles                    #    6.338 GHz                    
+ 3,650,863,120,186      instructions              #    0.82  insn per cycle         
+   758,534,084,600      branches                  # 1080.549 M/sec                  
+    17,075,716,193      branch-misses             #    2.25% of all branches        
+
+    1800.026291233 seconds time elapsed
+
