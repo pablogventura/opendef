@@ -3,7 +3,7 @@ import os
 from types import SimpleNamespace
 
 
-path = "positives4/"
+path = "positives/"
 
 data = defaultdict(lambda : defaultdict(lambda : SimpleNamespace(max_s=float("-inf"),
                                                                  min_s=float("inf"),
@@ -19,17 +19,15 @@ for f in glob.glob(path + "*.result"):
     print ("Processing %s" % f)
     #p10_30_2_0.2.result
     file=open(f,"r")
+    timeout = False
     s = file.readline()
     while s:
         if "Diversity=" in s:
             diversity = int(s[len("Diversity="):])
-        if "\tExit status: " in s:
-            exit_status = int(s[len("\tExit status: "):])
-            print(exit_status)
-        elif "\tUser time (seconds): " in s:
-            time = float(s[len("\tUser time (seconds): "):])
-        elif "\tSystem time (seconds): " in s:
-            time += float(s[len("\tSystem time (seconds): "):])
+        elif "KeyboardInterrupt" in s:
+            timeout = True
+        elif " seconds time elapsed" in s:
+            time = float(s.split()[0])
         s = file.readline()
     
     file.close()
@@ -42,9 +40,9 @@ for f in glob.glob(path + "*.result"):
     #exit_status 124
     
     s=s.splitlines()
-    
-    
-    if exit_status == 124:
+
+        
+    if timeout:
         #timeout case
         #data[arity][density].max_s=None
         #data[arity][density].min_s=None
@@ -56,7 +54,7 @@ for f in glob.glob(path + "*.result"):
         
         #data[arity][density].succesfull=0
         data[arity][density].timeouts+=1
-    elif exit_status == 0:
+    else:
         #succesful case 
         if data[arity][density].max_s <= diversity:
             data[arity][density].max_s=diversity
@@ -71,9 +69,6 @@ for f in glob.glob(path + "*.result"):
         data[arity][density].average_time+=time
         
         data[arity][density].succesfull+=1
-    else:
-        #error
-        raise ValueError
         
     
     
@@ -97,15 +92,15 @@ import matplotlib.pyplot as plt
 
 x=[]
 y=[]
-for density in [0.1,0.2,0.3,0.4,0.5]:
+for density in [0.1,0.3,0.5]:
     x.append(density)
     y.append(data[2][density].average_time)
-
-#plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
+#print((x,y))
+plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
 
 x=[]
 y=[]
-for density in [0.1,0.2,0.3,0.4,0.5]:
+for density in [0.1,0.3,0.5]:
     x.append(density)
     y.append(data[3][density].average_time)
 
@@ -113,14 +108,14 @@ for density in [0.1,0.2,0.3,0.4,0.5]:
 
 x=[]
 y=[]
-for density in [0.1,0.2,0.3,0.4,0.5]:
+for density in [0.1,0.3,0.5]:
     x.append(density)
     if data[5][density].average_time:
         y.append(data[5][density].average_time)
     else:
         y.append(0)
     print(data[5][density].average_time)
-plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
+#plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
 
 #plt.yscale('log')
 plt.show()
