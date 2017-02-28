@@ -13,7 +13,7 @@ data = defaultdict(lambda : defaultdict(lambda : defaultdict(lambda : SimpleName
                                                                                       min_time=float("inf"),
                                                                                       average_time=0,
                                                                                       succesfull=0,
-                                                                                      timeouts=0)))
+                                                                                      timeouts=0))))
 
 for f in glob.glob(path + "*.result"):
     print ("Processing %s" % f)
@@ -89,19 +89,29 @@ print("")
 import numpy as np
 import matplotlib.pyplot as plt
 
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+
+
+
 x=[]
 y=[]
+z=[]
 for density in [0.1,0.3,0.5]:
-    x.append(density)
-    y.append(data[2][density].average_time)
-#print((x,y))
-plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
+    for size in [10000,20000,30000,40000]:
+        x.append(size)
+        y.append(data[size][2][density].average_time)
+        z.append(density)
+
+plt.plot(x, y, z, color="red", linewidth=1.0, linestyle="-")
 
 x=[]
 y=[]
 for density in [0.1,0.3,0.5]:
     x.append(density)
-    y.append(data[3][density].average_time)
+    y.append(data[size][3][density].average_time)
 
 #plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
 
@@ -109,8 +119,8 @@ x=[]
 y=[]
 for density in [0.1,0.3,0.5]:
     x.append(density)
-    if data[4][density].average_time:
-        y.append(data[4][density].average_time)
+    if data[size][4][density].average_time:
+        y.append(data[size][4][density].average_time)
     else:
         y.append(0)
 #plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
