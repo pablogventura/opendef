@@ -79,7 +79,7 @@ for size in [10000,20000,30000,40000]:
                 data[size][arity][density].average_time/=data[size][arity][density].succesfull
             except ZeroDivisionError:
                 data[size][arity][density].average_s=None
-                data[size][arity][density].average_time=None
+                data[size][arity][density].average_time=3600
 
 
 print("PROCESSING FINISHED")
@@ -89,41 +89,36 @@ print("")
 import numpy as np
 import matplotlib.pyplot as plt
 
-from mpl_toolkits.mplot3d import Axes3D
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+#from mpl_toolkits.mplot3d import Axes3D
+#fig = plt.figure()
+#ax = fig.add_subplot(111, projection='3d')
 
 
 
-
+arity=3
 x=[]
 y=[]
-z=[]
-for density in [0.1,0.3,0.5]:
-    for size in [10000,20000,30000,40000]:
-        x.append(size)
-        y.append(data[size][2][density].average_time)
-        z.append(density)
+density = 0.1
+for size in [10000,20000,30000,40000]:
+    x.append(size)
+    y.append(data[size][arity][density].average_time)
 
-plt.plot(x, y, z, color="red", linewidth=1.0, linestyle="-")
-
+plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
 x=[]
 y=[]
-for density in [0.1,0.3,0.5]:
-    x.append(density)
-    y.append(data[size][3][density].average_time)
-
-#plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
-
+density = 0.3
+for size in [10000,20000,30000,40000]:
+    x.append(size)
+    y.append(data[size][arity][density].average_time)
+plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
 x=[]
 y=[]
-for density in [0.1,0.3,0.5]:
-    x.append(density)
-    if data[size][4][density].average_time:
-        y.append(data[size][4][density].average_time)
-    else:
-        y.append(0)
-#plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
+density = 0.5
+for size in [10000,20000,30000,40000]:
+    x.append(size)
+    y.append(data[size][arity][density].average_time)
+plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
+
 
 #plt.yscale('log')
 plt.show()
