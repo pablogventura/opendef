@@ -16,16 +16,16 @@ Traceback (most recent call last):
     str_sol = self.minionapp.stdout.readline().decode('utf-8')
 KeyboardInterrupt
 
- Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+ Performance counter stats for 'timeout --signal=SIGINT 60m python3 main.py':
 
-     714620.688042      task-clock (msec)         #    0.397 CPUs utilized          
-         6,721,467      context-switches          #    0.009 M/sec                  
-         1,479,701      cpu-migrations            #    0.002 M/sec                  
-       385,677,924      page-faults               #    0.540 M/sec                  
- 4,445,932,171,494      cycles                    #    6.221 GHz                    
- 3,636,265,763,388      instructions              #    0.82  insn per cycle         
-   754,503,267,104      branches                  # 1055.809 M/sec                  
-    16,959,272,691      branch-misses             #    2.25% of all branches        
+    1449426.461789      task-clock (msec)         #    0.403 CPUs utilized          
+        13,598,266      context-switches          #    0.009 M/sec                  
+         2,896,349      cpu-migrations            #    0.002 M/sec                  
+       783,680,718      page-faults               #    0.541 M/sec                  
+ 9,172,398,589,686      cycles                    #    6.328 GHz                    
+ 7,416,482,463,323      instructions              #    0.81  insn per cycle         
+ 1,540,235,495,914      branches                  # 1062.652 M/sec                  
+    34,091,813,492      branch-misses             #    2.21% of all branches        
 
-    1800.024431168 seconds time elapsed
+    3600.032706388 seconds time elapsed
 

@@ -1,40 +1,23 @@
 Spectrum=[3, 2, 1]
-Traceback (most recent call last):
-  File "main.py", line 96, in <module>
-    main()
-  File "main.py", line 15, in main
-    is_open_rel(g,("T0",))
-  File "main.py", line 64, in is_open_rel
-    iso = is_isomorphic_to_any(current, S, base_rels)
-  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
-    iso = is_isomorphic(source,target,subtype)
-  File "/home/pventura/relationaldef/minion.py", line 180, in is_isomorphic
-    i = isomorphisms(source,target,subtype,allsols=False)
-  File "/home/pventura/relationaldef/minion.py", line 172, in isomorphisms
-    return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
-  File "/home/pventura/relationaldef/minion.py", line 41, in __init__
-    stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
-  File "/usr/lib/python3.5/subprocess.py", line 676, in __init__
-    restore_signals, start_new_session)
-  File "/usr/lib/python3.5/subprocess.py", line 1244, in _execute_child
-    part = os.read(errpipe_read, 50000)
-KeyboardInterrupt
-Exception ignored in: <bound method MinionSol.__del__ of <minion.MinionSol object at 0x7f28bc6a58d0>>
-Traceback (most recent call last):
-  File "/home/pventura/relationaldef/minion.py", line 132, in __del__
-    if not self.EOF:
-AttributeError: 'MinionSol' object has no attribute 'EOF'
+Diversity=2719
+1-diversity=2
+2-diversity=41
+3-diversity=2676
+#Auts=2787
+#Isos=13161
+1370843 calls to Minion
+DEFINABLE
 
- Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+ Performance counter stats for 'timeout --signal=SIGINT 60m python3 main.py':
 
-     708590.963368      task-clock (msec)         #    0.394 CPUs utilized          
-         6,705,952      context-switches          #    0.009 M/sec                  
-         1,455,505      cpu-migrations            #    0.002 M/sec                  
-       380,610,367      page-faults               #    0.537 M/sec                  
- 4,448,005,846,626      cycles                    #    6.277 GHz                    
- 3,523,916,481,655      instructions              #    0.79  insn per cycle         
-   730,019,593,951      branches                  # 1030.241 M/sec                  
-    16,881,168,711      branch-misses             #    2.31% of all branches        
+     906577.171768      task-clock (msec)         #    0.396 CPUs utilized          
+         9,311,968      context-switches          #    0.010 M/sec                  
+         1,999,621      cpu-migrations            #    0.002 M/sec                  
+       524,837,252      page-faults               #    0.579 M/sec                  
+ 5,812,773,063,412      cycles                    #    6.412 GHz                    
+ 4,901,760,188,734      instructions              #    0.84  insn per cycle         
+ 1,016,558,142,599      branches                  # 1121.315 M/sec                  
+    23,233,261,922      branch-misses             #    2.29% of all branches        
 
-    1800.030515524 seconds time elapsed
+    2290.577386024 seconds time elapsed
 
