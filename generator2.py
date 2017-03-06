@@ -129,7 +129,7 @@ if __name__ == "__main__":
     arity = int(options.arity)
     universe = int(options.universe)
     
-    d = (size*(2**(1/arity)*(universe-1))**(-arity))/arity
-    print( d)
-    print(universe)
-    #positive_generator(universe,[(int((universe**arity)*density),arity)])
+    
+    density = (size*(2**(1/arity)*(universe-1))**(-arity))/arity
+
+    positive_generator(universe,[(int((universe**arity)*density),arity)])

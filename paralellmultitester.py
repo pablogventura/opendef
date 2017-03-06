@@ -2,9 +2,13 @@ import os, sys
 import multiprocessing
 import glob, os
 import subprocess as sp
-path = "positives/"
-timeout = "60m"
 import time
+import datetime
+
+print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+
+path = "positives/"
+timeout = "30m"
 
 running = []
 waiting = []
@@ -59,5 +63,5 @@ while running:
         
 
 
-
+print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
 print("PROCESSING FINISHED")
