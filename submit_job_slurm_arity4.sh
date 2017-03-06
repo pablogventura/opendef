@@ -29,7 +29,7 @@
 #SBATCH --cpus-per-task=12
 
 ### Tiempo de ejecución. Formato dias-horas:minutos. Máximo: tres días.
-#SBATCH --time 2-10:00:00
+#SBATCH --time 3-00:00:00
 
 ### Lanzado de la tarea
 srun python3 paralellmultitester.py 4
