@@ -121,13 +121,15 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-s", "--size", dest="size")
     parser.add_option("-a", "--arity", dest="arity")
-    parser.add_option("-d", "--density", dest="density")
+    parser.add_option("-u", "--universe", dest="universe")
 
     (options, args) = parser.parse_args()
     
     size = int(options.size)
     arity = int(options.arity)
-    density = float(options.density)
+    universe = int(options.universe)
     
-    universe = int((size/(2*arity*density))**(1/arity)+1)
-    positive_generator(universe,[(int((universe**arity)*density),arity)])
+    d = (size*(2**(1/arity)*(universe-1))**(-arity))/arity
+    print( d)
+    print(universe)
+    #positive_generator(universe,[(int((universe**arity)*density),arity)])
