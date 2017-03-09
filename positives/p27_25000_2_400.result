@@ -1,0 +1,29 @@
+Spectrum=[2, 1]
+Traceback (most recent call last):
+  File "main.py", line 96, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 61, in is_open_rel
+    current = genstack.next()
+  File "main.py", line 33, in next
+    result = next(self.stack[-1])
+  File "/home/pventura/relationaldef/models.py", line 25, in substructures
+    relations[r]=self.relations[r].restrict(s)
+  File "/home/pventura/relationaldef/relations.py", line 39, in restrict
+    if set(t) <= subuniverse:
+KeyboardInterrupt
+
+ Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+
+    1326981.623486      task-clock (msec)         #    0.737 CPUs utilized          
+           449,480      context-switches          #    0.339 K/sec                  
+           167,163      cpu-migrations            #    0.126 K/sec                  
+       494,641,775      page-faults               #    0.373 M/sec                  
+ 4,713,464,099,903      cycles                    #    3.552 GHz                    
+ 6,764,134,892,231      instructions              #    1.44  insn per cycle         
+ 1,438,581,127,780      branches                  # 1084.100 M/sec                  
+     6,191,394,037      branch-misses             #    0.43% of all branches        
+
+    1800.012516587 seconds time elapsed
+

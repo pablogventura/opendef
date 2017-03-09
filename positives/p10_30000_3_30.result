@@ -1,0 +1,37 @@
+Spectrum=[3, 2, 1]
+Traceback (most recent call last):
+  File "main.py", line 96, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 64, in is_open_rel
+    iso = is_isomorphic_to_any(current, S, base_rels)
+  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
+    iso = is_isomorphic(source,target,subtype)
+  File "/home/pventura/relationaldef/minion.py", line 182, in is_isomorphic
+    if i:
+  File "/home/pventura/relationaldef/minion.py", line 102, in __bool__
+    solution = self.__parse_solution()
+  File "/home/pventura/relationaldef/minion.py", line 75, in __parse_solution
+    self.__terminate()
+  File "/home/pventura/relationaldef/minion.py", line 123, in __terminate
+    self.minionapp.kill()
+  File "/usr/lib/python3.5/subprocess.py", line 1518, in kill
+    self.send_signal(signal.SIGKILL)
+  File "/usr/lib/python3.5/subprocess.py", line 1507, in send_signal
+    if self.returncode is None:
+KeyboardInterrupt
+
+ Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+
+     718065.583965      task-clock (msec)         #    0.399 CPUs utilized          
+         6,698,554      context-switches          #    0.009 M/sec                  
+         1,422,402      cpu-migrations            #    0.002 M/sec                  
+       393,362,854      page-faults               #    0.548 M/sec                  
+ 4,600,291,654,618      cycles                    #    6.407 GHz                    
+ 3,868,515,319,080      instructions              #    0.84  insn per cycle         
+   801,674,200,057      branches                  # 1116.436 M/sec                  
+    17,240,697,369      branch-misses             #    2.15% of all branches        
+
+    1800.055147693 seconds time elapsed
+

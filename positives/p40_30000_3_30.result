@@ -1,0 +1,40 @@
+Spectrum=[3, 2, 1]
+Traceback (most recent call last):
+  File "main.py", line 96, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 64, in is_open_rel
+    iso = is_isomorphic_to_any(current, S, base_rels)
+  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
+    iso = is_isomorphic(source,target,subtype)
+  File "/home/pventura/relationaldef/minion.py", line 180, in is_isomorphic
+    i = isomorphisms(source,target,subtype,allsols=False)
+  File "/home/pventura/relationaldef/minion.py", line 172, in isomorphisms
+    return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
+  File "/home/pventura/relationaldef/minion.py", line 41, in __init__
+    stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
+  File "/usr/lib/python3.5/subprocess.py", line 676, in __init__
+    restore_signals, start_new_session)
+  File "/usr/lib/python3.5/subprocess.py", line 1221, in _execute_child
+    restore_signals, start_new_session, preexec_fn)
+KeyboardInterrupt
+Exception ignored in: <bound method MinionSol.__del__ of <minion.MinionSol object at 0x2b2d7e91e208>>
+Traceback (most recent call last):
+  File "/home/pventura/relationaldef/minion.py", line 132, in __del__
+    if not self.EOF:
+AttributeError: 'MinionSol' object has no attribute 'EOF'
+
+ Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+
+     862026.040176      task-clock (msec)         #    0.479 CPUs utilized          
+         7,027,752      context-switches          #    0.008 M/sec                  
+         1,540,032      cpu-migrations            #    0.002 M/sec                  
+       408,255,943      page-faults               #    0.474 M/sec                  
+ 4,824,395,433,181      cycles                    #    5.597 GHz                    
+ 4,064,690,984,367      instructions              #    0.84  insn per cycle         
+   842,097,536,013      branches                  #  976.882 M/sec                  
+    18,427,867,190      branch-misses             #    2.19% of all branches        
+
+    1800.043601866 seconds time elapsed
+

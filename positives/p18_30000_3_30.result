@@ -1,0 +1,38 @@
+Spectrum=[3, 2, 1]
+Traceback (most recent call last):
+  File "main.py", line 96, in <module>
+    main()
+  File "main.py", line 15, in main
+    is_open_rel(g,("T0",))
+  File "main.py", line 64, in is_open_rel
+    iso = is_isomorphic_to_any(current, S, base_rels)
+  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
+    iso = is_isomorphic(source,target,subtype)
+  File "/home/pventura/relationaldef/minion.py", line 180, in is_isomorphic
+    i = isomorphisms(source,target,subtype,allsols=False)
+  File "/home/pventura/relationaldef/minion.py", line 172, in isomorphisms
+    return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
+  File "/home/pventura/relationaldef/minion.py", line 42, in __init__
+    files.write(self.input_filename, input_data)
+  File "/home/pventura/relationaldef/files.py", line 68, in write
+    f.close()
+KeyboardInterrupt
+Exception ignored in: <bound method MinionSol.__del__ of <minion.MinionSol object at 0x2b44b2b7db38>>
+Traceback (most recent call last):
+  File "/home/pventura/relationaldef/minion.py", line 132, in __del__
+    if not self.EOF:
+AttributeError: 'MinionSol' object has no attribute 'EOF'
+
+ Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+
+     709798.118051      task-clock (msec)         #    0.394 CPUs utilized          
+         6,748,883      context-switches          #    0.010 M/sec                  
+         1,422,092      cpu-migrations            #    0.002 M/sec                  
+       394,270,595      page-faults               #    0.555 M/sec                  
+ 4,590,360,680,118      cycles                    #    6.467 GHz                    
+ 3,880,260,815,050      instructions              #    0.85  insn per cycle         
+   804,780,324,335      branches                  # 1133.816 M/sec                  
+    17,407,193,386      branch-misses             #    2.16% of all branches        
+
+    1800.061568582 seconds time elapsed
+
