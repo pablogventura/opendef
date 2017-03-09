@@ -31,11 +31,11 @@ for f in glob.glob(path + "*.result"):
         s = file.readline()
     
     file.close()
-    i,size,arity,density = f[len(path)+1:-len(".result")].split("_")
+    i,size,arity,universe = f[len(path)+1:-len(".result")].split("_")
     i=int(i)
     size=int(size)
     arity=int(arity)
-    density = float(density)
+    universe = int(universe)
     
     #exit_status 124
     
@@ -44,42 +44,52 @@ for f in glob.glob(path + "*.result"):
         
     if timeout:
         #timeout case
-        #data[arity][density].max_s=None
-        #data[arity][density].min_s=None
-        #data[arity][density].average_s=None
+        #data[arity][universe].max_s=None
+        #data[arity][universe].min_s=None
+        #data[arity][universe].average_s=None
         
-        #data[arity][density].max_time=None
-        #data[arity][density].min_time=None
-        #data[arity][density].average_time=None
+        #data[arity][universe].max_time=None
+        #data[arity][universe].min_time=None
+        #data[arity][universe].average_time=None
         
-        #data[arity][density].succesfull=0
-        data[size][arity][density].timeouts+=1
+        #data[arity][universe].succesfull=0
+        data[size][arity][universe].timeouts+=1
     else:
         #succesful case 
-        if data[size][arity][density].max_s <= diversity:
-            data[size][arity][density].max_s=diversity
-        if data[size][arity][density].min_s >= diversity:
-            data[size][arity][density].min_s=diversity
-        data[size][arity][density].average_s+=diversity
+        if data[size][arity][universe].max_s <= diversity:
+            data[size][arity][universe].max_s=diversity
+        if data[size][arity][universe].min_s >= diversity:
+            data[size][arity][universe].min_s=diversity
+        data[size][arity][universe].average_s+=diversity
         
-        if data[size][arity][density].max_time <= time:
-            data[size][arity][density].max_time=time
-        if data[size][arity][density].min_time >= time:
-            data[size][arity][density].min_time=time
-        data[size][arity][density].average_time+=time
+        if data[size][arity][universe].max_time <= time:
+            data[size][arity][universe].max_time=time
+        if data[size][arity][universe].min_time >= time:
+            data[size][arity][universe].min_time=time
+        data[size][arity][universe].average_time+=time
         
-        data[size][arity][density].succesfull+=1
+        data[size][arity][universe].succesfull+=1
         
     
-for size in [10000,20000,30000,40000]:
-    for arity in range(2,5):
-        for density in [0.1,0.3,0.5]:
-            try:
-                data[size][arity][density].average_s/=data[size][arity][density].succesfull
-                data[size][arity][density].average_time/=data[size][arity][density].succesfull
-            except ZeroDivisionError:
-                data[size][arity][density].average_s=None
-                data[size][arity][density].average_time=3600
+for size in range(5000,40000,5000):
+    arity = 2
+    for universe in range(200,450,50):
+        try:
+            data[size][arity][universe].average_s/=data[size][arity][universe].succesfull
+            data[size][arity][universe].average_time/=data[size][arity][universe].succesfull
+        except ZeroDivisionError:
+            data[size][arity][universe].average_s=0
+            data[size][arity][universe].average_time=3600
+
+for size in range(5000,40000,5000):
+    arity = 3
+    for universe in range(25,45,5):
+        try:
+            data[size][arity][universe].average_s/=data[size][arity][universe].succesfull
+            data[size][arity][universe].average_time/=data[size][arity][universe].succesfull
+        except ZeroDivisionError:
+            data[size][arity][universe].average_s=0
+            data[size][arity][universe].average_time=3600
 
 
 print("PROCESSING FINISHED")
@@ -93,33 +103,105 @@ import matplotlib.pyplot as plt
 #fig = plt.figure()
 #ax = fig.add_subplot(111, projection='3d')
 
+fig, ax = plt.subplots()
 
+c=1/len(list(range(200,450,50)))#color
+color=c
+arity=2
+for universe in range(200,450,50):
+    x=[]
+    y=[]
+    for size in range(5000,40000,5000):
+        if data[size][arity][universe].average_time != 3600:
+            x.append(size)
+            y.append(data[size][arity][universe].average_time)
+        
+    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
+    color+=c
 
-arity=3
-x=[]
-y=[]
-density = 0.1
-for size in [10000,20000,30000,40000]:
-    x.append(size)
-    y.append(data[size][arity][density].average_time)
-
-plt.plot(x, y, color="red", linewidth=1.0, linestyle="-")
-x=[]
-y=[]
-density = 0.3
-for size in [10000,20000,30000,40000]:
-    x.append(size)
-    y.append(data[size][arity][density].average_time)
-plt.plot(x, y, color="green", linewidth=1.0, linestyle="-")
-x=[]
-y=[]
-density = 0.5
-for size in [10000,20000,30000,40000]:
-    x.append(size)
-    y.append(data[size][arity][density].average_time)
-plt.plot(x, y, color="blue", linewidth=1.0, linestyle="-")
-
-
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles, labels)
+legend = ax.legend(loc='upper center', shadow=True)
+ax.set_title('Positive tests, arity=%s' % arity)
+ax.set_xlabel('Model Size')
+ax.set_ylabel('Time (seconds)')
 #plt.yscale('log')
 plt.show()
+plt.clf()
 
+fig, ax = plt.subplots()
+
+c=1/len(list(range(200,450,50)))#color
+color=c
+arity=2
+for universe in range(200,450,50):
+    x=[]
+    y=[]
+    for size in range(5000,40000,5000):
+        if data[size][arity][universe].average_s:
+            x.append(size)
+            y.append(data[size][arity][universe].average_s)
+        
+    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
+    color+=c
+
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles, labels)
+legend = ax.legend(loc='upper center', shadow=True)
+ax.set_title('Positive tests, arity=%s' % arity)
+ax.set_xlabel('Model Size')
+ax.set_ylabel('Diversity (#S)')
+#plt.yscale('log')
+plt.show()
+plt.clf()
+
+
+fig, ax = plt.subplots()
+
+c=1/len(list(range(25,45,5)))#color
+color=c
+arity=3
+for universe in range(25,45,5):
+    x=[]
+    y=[]
+    for size in range(5000,40000,5000):
+        if data[size][arity][universe].average_time != 3600:
+            x.append(size)
+            y.append(data[size][arity][universe].average_time)
+        
+    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
+    color+=c
+
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles, labels)
+legend = ax.legend(loc='upper center', shadow=True)
+ax.set_title('Positive tests, arity=%s' % arity)
+ax.set_xlabel('Model Size')
+ax.set_ylabel('Time (seconds)')
+plt.show()
+plt.clf()
+
+fig, ax = plt.subplots()
+
+c=1/len(list(range(25,45,5)))#color
+color=c
+arity=3
+for universe in range(25,45,5):
+    x=[]
+    y=[]
+    for size in range(5000,40000,5000):
+        if data[size][arity][universe].average_s:
+            x.append(size)
+            y.append(data[size][arity][universe].average_s)
+        
+    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
+    color+=c
+
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles, labels)
+legend = ax.legend(loc='upper center', shadow=True)
+ax.set_title('Positive tests, arity=%s' % arity)
+ax.set_xlabel('Model Size')
+ax.set_ylabel('Diversity (#S)')
+#plt.yscale('log')
+plt.show()
