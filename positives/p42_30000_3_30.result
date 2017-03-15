@@ -1,31 +1,23 @@
 Spectrum=[3, 2, 1]
-Traceback (most recent call last):
-  File "main.py", line 96, in <module>
-    main()
-  File "main.py", line 15, in main
-    is_open_rel(g,("T0",))
-  File "main.py", line 64, in is_open_rel
-    iso = is_isomorphic_to_any(current, S, base_rels)
-  File "/home/pventura/relationaldef/minion.py", line 197, in is_isomorphic_to_any
-    iso = is_isomorphic(source,target,subtype)
-  File "/home/pventura/relationaldef/minion.py", line 182, in is_isomorphic
-    if i:
-  File "/home/pventura/relationaldef/minion.py", line 102, in __bool__
-    solution = self.__parse_solution()
-  File "/home/pventura/relationaldef/minion.py", line 51, in __parse_solution
-    str_sol = self.minionapp.stdout.readline().decode('utf-8')
-KeyboardInterrupt
+Diversity=3792
+1-diversity=2
+2-diversity=68
+3-diversity=3722
+#Auts=3829
+#Isos=11570
+1153794 calls to Minion
+DEFINABLE
 
- Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+ Performance counter stats for 'python3 main.py':
 
-     866919.556878      task-clock (msec)         #    0.482 CPUs utilized          
-         7,024,497      context-switches          #    0.008 M/sec                  
-         1,553,920      cpu-migrations            #    0.002 M/sec                  
-       409,698,464      page-faults               #    0.473 M/sec                  
- 4,824,117,594,463      cycles                    #    5.565 GHz                    
- 4,075,920,114,709      instructions              #    0.84  insn per cycle         
-   843,791,907,300      branches                  #  973.322 M/sec                  
-    18,372,099,608      branch-misses             #    2.18% of all branches        
+     910131.106649      task-clock (msec)         #    0.401 CPUs utilized          
+         7,768,260      context-switches          #    0.009 M/sec                  
+         1,731,736      cpu-migrations            #    0.002 M/sec                  
+       449,513,844      page-faults               #    0.494 M/sec                  
+ 5,622,639,057,700      cycles                    #    6.178 GHz                    
+ 4,533,956,708,231      instructions              #    0.81  insn per cycle         
+   937,358,990,171      branches                  # 1029.916 M/sec                  
+    20,326,196,265      branch-misses             #    2.17% of all branches        
 
-    1800.049482570 seconds time elapsed
+    2268.332285861 seconds time elapsed
 
