@@ -1,29 +1,22 @@
 Spectrum=[2, 1]
-Traceback (most recent call last):
-  File "main.py", line 96, in <module>
-    main()
-  File "main.py", line 15, in main
-    is_open_rel(g,("T0",))
-  File "main.py", line 61, in is_open_rel
-    current = genstack.next()
-  File "main.py", line 33, in next
-    result = next(self.stack[-1])
-  File "/home/pventura/relationaldef/models.py", line 25, in substructures
-    relations[r]=self.relations[r].restrict(s)
-  File "/home/pventura/relationaldef/relations.py", line 38, in restrict
-    for t in self.r:
-KeyboardInterrupt
+Diversity=12
+1-diversity=2
+2-diversity=10
+#Auts=16
+#Isos=79808
+90830 calls to Minion
+DEFINABLE
 
- Performance counter stats for 'timeout --signal=SIGINT 30m python3 main.py':
+ Performance counter stats for 'python3 main.py':
 
-     354028.522263      task-clock (msec)         #    0.197 CPUs utilized          
-           405,460      context-switches          #    0.001 M/sec                  
-           111,351      cpu-migrations            #    0.315 K/sec                  
-        54,529,428      page-faults               #    0.154 M/sec                  
- 1,725,130,270,825      cycles                    #    4.873 GHz                    
- 3,093,255,241,355      instructions              #    1.79  insn per cycle         
-   662,912,136,083      branches                  # 1872.482 M/sec                  
-     4,756,770,939      branch-misses             #    0.72% of all branches        
+     380914.529387      task-clock (msec)         #    0.381 CPUs utilized          
+         2,214,082      context-switches          #    0.006 M/sec                  
+           177,238      cpu-migrations            #    0.465 K/sec                  
+        68,138,507      page-faults               #    0.179 M/sec                  
+ 2,088,024,197,688      cycles                    #    5.482 GHz                    
+ 3,478,617,380,073      instructions              #    1.67  insn per cycle         
+   747,243,487,211      branches                  # 1961.709 M/sec                  
+     6,407,616,108      branch-misses             #    0.86% of all branches        
 
-    1800.091688724 seconds time elapsed
+     998.465442647 seconds time elapsed
 
