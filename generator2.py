@@ -99,7 +99,8 @@ def positive_generator(cardinality,rels):
                 srel+=" ".join(str(i) for i in t) + "\n"
                 r.add(t)
         print("R"+srel)
-        print("T"+srel)
+        rindex+=1
+    print("T0"+srel[len(srel.split()[0]):])
 
 def negative_generator(cardinality,rels):
     print(" ".join(str(i) for i in range(cardinality)))
@@ -119,17 +120,21 @@ def negative_generator(cardinality,rels):
 if __name__ == "__main__":
     from optparse import OptionParser
     parser = OptionParser()
-    parser.add_option("-s", "--size", dest="size")
+    #parser.add_option("-s", "--size", dest="size")
+    parser.add_option("-d", "--density", dest="density")
     parser.add_option("-a", "--arity", dest="arity")
     parser.add_option("-u", "--universe", dest="universe")
+    parser.add_option("-q", "--quantity", dest="quantity")
 
     (options, args) = parser.parse_args()
     
-    size = int(options.size)
+    density = float(options.density)
+    #size = int(options.size)
     arity = int(options.arity)
     universe = int(options.universe)
+    quantity = int(options.quantity)
     
     
-    density = (size*(2**(1/arity)*(universe-1))**(-arity))/arity
+    #density = (size*((quantity+1)**(1/arity)*(universe-1))**(-arity))/arity
 
-    positive_generator(universe,[(int((universe**arity)*density),arity)])
+    positive_generator(universe,[(int((universe**arity)*density),arity)]*quantity)
