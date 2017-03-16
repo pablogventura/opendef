@@ -121,12 +121,13 @@ for universe in range(200,450,50):
 
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles, labels)
-legend = ax.legend(loc='upper center', shadow=True)
+legend = ax.legend(loc='lower right')
+legend.get_frame().set_alpha(0.5)
 ax.set_title('Positive tests, arity=%s' % arity)
 ax.set_xlabel('Model Size')
 ax.set_ylabel('Time (seconds)')
 #plt.yscale('log')
-plt.show()
+plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"time"))
 plt.clf()
 
 fig, ax = plt.subplots()
@@ -147,12 +148,13 @@ for universe in range(200,450,50):
 
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles, labels)
-legend = ax.legend(loc='upper center', shadow=True)
+legend = ax.legend(loc='lower right')
+legend.get_frame().set_alpha(0.5)
 ax.set_title('Positive tests, arity=%s' % arity)
 ax.set_xlabel('Model Size')
 ax.set_ylabel('Diversity (#S)')
 #plt.yscale('log')
-plt.show()
+plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"diversity"))
 plt.clf()
 
 
@@ -174,11 +176,12 @@ for universe in range(25,45,5):
 
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles, labels)
-legend = ax.legend(loc='upper center', shadow=True)
+legend = ax.legend(loc='lower right')
+legend.get_frame().set_alpha(0.5)
 ax.set_title('Positive tests, arity=%s' % arity)
 ax.set_xlabel('Model Size')
 ax.set_ylabel('Time (seconds)')
-plt.show()
+plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"time"))
 plt.clf()
 
 fig, ax = plt.subplots()
@@ -199,9 +202,10 @@ for universe in range(25,45,5):
 
 handles, labels = ax.get_legend_handles_labels()
 ax.legend(handles, labels)
-legend = ax.legend(loc='upper center', shadow=True)
+legend = ax.legend(loc='lower right')
+legend.get_frame().set_alpha(0.5)
 ax.set_title('Positive tests, arity=%s' % arity)
 ax.set_xlabel('Model Size')
 ax.set_ylabel('Diversity (#S)')
 #plt.yscale('log')
-plt.show()
+plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"diversity"))
