@@ -21,6 +21,6 @@ print("Con un paso de %s" % paso)
 for size in range(5000,40000,5000):
     print(("Size: %s " % (size))+("*"*45))
     for u in range(desde,hasta+1,paso):
-        print("\tUniverse: %s\tDenstiy: %s" % (u,density(size,u,2,3)))
+        print("\tUniverse: %s\tDenstity: %s" % (u,density(size,u,2,3)))
 
 
