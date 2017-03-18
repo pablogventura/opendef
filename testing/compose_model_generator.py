@@ -11,6 +11,7 @@ def positive_generator(cardinality,rels):
     print(" ".join(str(i) for i in range(cardinality)))
     print("")
     rindex=0
+    relations=[]
     for tuples,arity in rels:
         if rindex == 0:
             trel =[]
@@ -21,12 +22,22 @@ def positive_generator(cardinality,rels):
             if t not in r:
                 srel+=" ".join(str(i) for i in t) + "\n"
                 r.add(t)
-                if rindex==0 and t[0]==t[2] and t[:2] not in trel:
-                    trel.append(t[:2])
+                for j in r:
+                    if t[1] == j[0]:
+                        new = (t[0],t[1],j[1])
+                        if new not in trel:
+                            trel.append(new)
         print("R"+srel)
         rindex+=1
-        
-    srel=("T%s %s %s\n" % (0,len(trel),2))
+        relations.append(r)
+    
+    trel=set()
+    r1,r2=relations
+    for s in r1:
+        for t in r2:
+            if s[1]==t[0]:
+                trel.add((s[0],s[1],t[1]))
+    srel=("T%s %s %s\n" % (0,len(trel),3))
     for t in trel:
         srel+=" ".join(str(i) for i in t) + "\n"
     print(srel)
@@ -42,9 +53,9 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
     
     density = float(options.density)
-    arity = 3
     universe = int(options.universe)
-    quantity = 1
+    quantity = 2
+    arity = 2
     if options.seed:
         random.seed(int(options.seed))
 
