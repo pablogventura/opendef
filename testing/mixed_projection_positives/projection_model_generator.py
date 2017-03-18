@@ -13,7 +13,7 @@ def positive_generator(cardinality,rels):
     rindex=0
     for tuples,arity in rels:
         if rindex == 0:
-            trel =[]
+            trel =set()
         r=set()
         srel=("%s %s %s\n" % (rindex,tuples,arity))
         while tuples != len(r):
@@ -21,8 +21,8 @@ def positive_generator(cardinality,rels):
             if t not in r:
                 srel+=" ".join(str(i) for i in t) + "\n"
                 r.add(t)
-                if rindex==0 and t[0]==t[2] and t[:2] not in trel:
-                    trel.append(t[:2])
+                if rindex==0 and t[0]==t[2]:
+                    trel.add(t[:2])
         print("R"+srel)
         rindex+=1
         
