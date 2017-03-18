@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
+from misc import indent
 
 class Isomorphism(object):
     def __init__(self,d,source,target, subtype):
@@ -12,7 +13,15 @@ class Isomorphism(object):
     def __call__(self, x):
         return self.values[x]
     def __repr__(self):
-        return "Isomorphism(%s) from {%s} to {%s}" % (self.values,self.source,self.target)
+        result = "Isomorphism(\n"
+        for a,b in self.values.items():
+            result+= "  %s->%s\n" % (a,b)
+        result+="from:\n"
+        result+=indent(repr(self.source))
+        result+="to:\n"
+        result+=indent(repr(self.target))
+        result+=")"
+        return result
     def iso_wrt(self,subtype):
         if self.source.rels_sizes(subtype) != self.target.rels_sizes(subtype):
             return False
@@ -31,7 +40,13 @@ class Automorphism(object):
     def __call__(self, x):
         return self.values[x]
     def __repr__(self):
-        return "Automorphism(%s) from {%s}" % (self.values,self.model)
+        result = "Automorphism(\n"
+        for a,b in self.values.items():
+            result+= "  %s->%s\n" % (a,b)
+        result+="from:\n"
+        result+=indent(repr(self.model))
+        result+=")"
+        return result
     def aut_wrt(self,subtype):
         for r in subtype:
             for t in self.model.relations[r]:

@@ -5,7 +5,8 @@ from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from itertools import chain
-
+from colorama import Fore
+from misc import indent
 
 def main():
     model = stdin_parser()
@@ -39,7 +40,7 @@ def is_open_rel(model, target_rels):
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     size = spectrum[0]
-    print ("Spectrum=%s"%spectrum)
+    print ("Spectrum = %s"%spectrum)
     isos_count = 0
     auts_count = 0
     S = set()
@@ -70,23 +71,25 @@ def is_open_rel(model, target_rels):
                 except StopIteration:
                     # no tiene mas hijos
                     pass
-        print("DEFINABLE")
+        print(Fore.GREEN +"DEFINABLE"+Fore.RESET)
+        print("\nFinal state: ")
         
     except Counterexample as ce:
-        print("NOT DEFINABLE")
-        print("Counterexample=%s" % ce.ce)
-        print("State before abort: ")
+        print(Fore.RED +"NOT DEFINABLE"+Fore.RESET)
+        print("Counterexample:")
+        print(indent(repr(ce.ce)))
+        print("\nState before abort: ")
     except KeyboardInterrupt:
-        print("CANCELLED")
-        print("State before abort: ")
+        print(Fore.YELLOW +"CANCELLED"+Fore.RESET)
+        print("\nState before abort: ")
     
-    print ("Diversity=%s"%len(S))
+    print ("  Diversity = %s"%len(S))
     if S:
         for k in range(1,max(map(len,S))+1):
-            print("%s-diversity=%s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
-    print("#Auts=%s" % auts_count)
-    print("#Isos=%s" % isos_count)
-    print("%s calls to Minion" % MinionSol.count)
+            print("    %s-diversity = %s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
+    print("  #Auts = %s" % auts_count)
+    print("  #Isos = %s" % isos_count)
+    print("  %s calls to Minion" % MinionSol.count)
 
 
 

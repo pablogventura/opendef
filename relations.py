@@ -15,7 +15,7 @@ class Relation(object):
         self.r.add(t)
     
     def __repr__(self):
-        return "Relation " + self.sym + " " + str(self.r)
+        return repr(self.r)
     
     def __call__(self, *args):
         return args in self.r
