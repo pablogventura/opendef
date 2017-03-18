@@ -5,14 +5,15 @@ from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from itertools import chain
-from colorama import Fore
 from misc import indent
 
 def main():
     model = stdin_parser()
     targets_rel = tuple(sym for sym in model.relations.keys() if sym[0]=="T")
+    if not targets_rel:
+        print("ERROR: NO TARGET RELATIONS FOUND")
+        return
     is_open_rel(model,targets_rel)
-
         
 
 class GenStack(object):
@@ -39,7 +40,10 @@ class GenStack(object):
 def is_open_rel(model, target_rels):
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
-    size = spectrum[0]
+    if spectrum:
+        size = spectrum[0]
+    else:
+        size = 0
     print ("Spectrum = %s"%spectrum)
     isos_count = 0
     auts_count = 0
@@ -71,16 +75,16 @@ def is_open_rel(model, target_rels):
                 except StopIteration:
                     # no tiene mas hijos
                     pass
-        print(Fore.GREEN +"DEFINABLE"+Fore.RESET)
+        print("DEFINABLE")
         print("\nFinal state: ")
         
     except Counterexample as ce:
-        print(Fore.RED +"NOT DEFINABLE"+Fore.RESET)
+        print("NOT DEFINABLE")
         print("Counterexample:")
         print(indent(repr(ce.ce)))
         print("\nState before abort: ")
     except KeyboardInterrupt:
-        print(Fore.YELLOW +"CANCELLED"+Fore.RESET)
+        print("CANCELLED")
         print("\nState before abort: ")
     
     print ("  Diversity = %s"%len(S))

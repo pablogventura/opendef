@@ -15,8 +15,9 @@ class RelationalModel(object):
         self.relations = relations
 
     def subuniverses(self,size):
-        for subu in combinations(self.universe,size):
-            yield subu
+        if size:
+            for subu in combinations(self.universe,size):
+                yield subu
     
     def substructures(self,size):
         for s in self.subuniverses(size):
