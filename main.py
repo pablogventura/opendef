@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python   
+from counterexample import Counterexample
 from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from itertools import chain
 
-class Counterexample(Exception):
-    def __init__(self,ce):
-        self.ce = ce
 
 def main():
-    g=stdin_parser()
-    try:
-        is_open_rel(g,("T0",))
-        print("DEFINABLE")
-    except Counterexample as ce:
-        print("NOT DEFINABLE")
-        print("Counterexample=%s" % ce.ce)
+    model = stdin_parser()
+    targets_rel = tuple(sym for sym in model.relations.keys() if sym[0]=="T")
+    is_open_rel(model,targets_rel)
+
         
 
 class GenStack(object):
@@ -50,45 +45,48 @@ def is_open_rel(model, target_rels):
     S = set()
     
     genstack = GenStack(model.substructures(size))
-
-    while True:
-    
-        #if auts_count % 50 == 0:
-        #    print("#Auts=%s Diversity=%s" % (auts_count,len(S)))
-        #if isos_count:
-        #    print("#Isos=%s" % isos_count)
-        try:
-            current = genstack.next()
-        except StopIteration:
-            break
-        iso = is_isomorphic_to_any(current, S, base_rels)
-        if iso:
-            isos_count += 1
-            if not iso.iso_wrt(target_rels):
-                print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
-                raise Counterexample(iso)
-        else:
-            for aut in automorphisms(current,base_rels):
-                auts_count += 1
-                if not aut.aut_wrt(target_rels):
-                    print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
-                    raise Counterexample(aut)
-            S.add(current)
-
+    try:
+        while True:
             try:
-                size = next(x for x in spectrum if x < len(current)) # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
-                genstack.add(current.substructures(size))
+                current = genstack.next()
             except StopIteration:
-                # no tiene mas hijos
-                pass
-    print ("Diversity=%s"%len(S)) # TODO las k-diversidades por separado
-    for k in range(1,max(map(len,S))+1):
-        print("%s-diversity=%s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
+                break
+            iso = is_isomorphic_to_any(current, S, base_rels)
+            if iso:
+                isos_count += 1
+                if not iso.iso_wrt(target_rels):
+                    raise Counterexample(iso)
+            else:
+                for aut in automorphisms(current,base_rels):
+                    auts_count += 1
+                    if not aut.aut_wrt(target_rels):
+                        raise Counterexample(aut)
+                S.add(current)
+
+                try:
+                    # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
+                    size = next(x for x in spectrum if x < len(current)) 
+                    genstack.add(current.substructures(size))
+                except StopIteration:
+                    # no tiene mas hijos
+                    pass
+        print("DEFINABLE")
+        
+    except Counterexample as ce:
+        print("NOT DEFINABLE")
+        print("Counterexample=%s" % ce.ce)
+        print("State before abort: ")
+    except KeyboardInterrupt:
+        print("CANCELLED")
+        print("State before abort: ")
+    
+    print ("Diversity=%s"%len(S))
+    if S:
+        for k in range(1,max(map(len,S))+1):
+            print("%s-diversity=%s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
     print("#Auts=%s" % auts_count)
     print("#Isos=%s" % isos_count)
     print("%s calls to Minion" % MinionSol.count)
-    return True
-
 
 
 
