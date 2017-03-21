@@ -123,6 +123,8 @@ for y_axis in ["time","diversity"]:
     for quantity in range(1,4+1,1):
         fig, ax = plt.subplots()
         marker=0
+        max_y=-float("inf")
+        min_y=float("inf")
         for universe in range(50,100+1,10):
             x=[]
             y=[]
@@ -135,6 +137,8 @@ for y_axis in ["time","diversity"]:
                     y.append(np.median(data[density][arity][universe][quantity].diversities))
                 else:
                     raise IndexError
+                max_y=max(y+[max_y])
+                min_y=min(y+[min_y])
             #dict_keys([' ', 'None', '', '-.', ':', '-', '--'])
             ax.plot(x, y, color=(0,0,0), linewidth=1.0, marker=markers[marker], linestyle="-",label="#Universe=%s"%universe)
             marker+=1
@@ -146,6 +150,9 @@ for y_axis in ["time","diversity"]:
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
         fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf), fontsize=14, fontweight='bold')
         ax.set_xlabel('Density')
+        ax.set_xlim([0.05,0.55])
+        y_margin=(max_y-min_y)/6
+        ax.set_ylim([min_y-y_margin,max_y+y_margin])
         if y_axis == "time":
             ax.set_ylabel('Time (s)')
         elif y_axis == "diversity":
@@ -161,6 +168,8 @@ for y_axis in ["time","diversity"]:
     for quantity in range(1,1+1,1):
         fig, ax = plt.subplots()
         marker=0
+        max_y=-float("inf")
+        min_y=float("inf")
         for universe in range(23,27+1,1):
             x=[]
             y=[]
@@ -173,7 +182,8 @@ for y_axis in ["time","diversity"]:
                     y.append(np.median(data[density][arity][universe][quantity].diversities))
                 else:
                     raise IndexError
-
+                max_y=max(y+[max_y])
+                min_y=min(y+[min_y])
             ax.plot(x, y, color=(0,0,0), linewidth=1.0, marker=markers[marker], linestyle="-",label="#Universe=%s"%universe)
             marker+=1
 
@@ -184,6 +194,9 @@ for y_axis in ["time","diversity"]:
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
         fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf), fontsize=14, fontweight='bold')
         ax.set_xlabel('Density')
+        ax.set_xlim([0.05,0.55])
+        y_margin=(max_y-min_y)/6
+        ax.set_ylim([min_y-y_margin,max_y+y_margin])
         if y_axis == "time":
             ax.set_ylabel('Time (s)')
         elif y_axis == "diversity":
@@ -191,6 +204,7 @@ for y_axis in ["time","diversity"]:
         else:
             raise IndexError
         #plt.yscale('log')
+
         plt.savefig("positive_tests_arity_%s_%s_%s.pdf"%(arity,y_axis,s_conf.replace("/","to")))
         plt.clf()
 
