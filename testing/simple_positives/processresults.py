@@ -6,6 +6,9 @@ import glob, os
 from types import SimpleNamespace
 import sys
 
+
+
+
 path = "data/"
 
 data = defaultdict(lambda : defaultdict(lambda : defaultdict(lambda :defaultdict(lambda : SimpleNamespace(diversities=[],
@@ -111,11 +114,11 @@ print("")
 
 
 
-#from mpl_toolkits.mplot3d import Axes3D
-#fig = plt.figure()
-#ax = fig.add_subplot(111, projection='3d')
 
 for y_axis in ["time","diversity"]:
+    #from mpl_toolkits.mplot3d import Axes3D
+    #fig = plt.figure()
+    #ax = fig.add_subplot(111, projection='3d')
     arity = 2
     for quantity in range(1,4+1,1):
         fig, ax = plt.subplots()
@@ -133,6 +136,7 @@ for y_axis in ["time","diversity"]:
                     y.append(np.median(data[density][arity][universe][quantity].diversities))
                 else:
                     raise IndexError
+            #dict_keys([' ', 'None', '', '-.', ':', '-', '--'])
             ax.plot(x, y, color=(color,0,0), linewidth=1.0, marker='o', linestyle="-",label="#Universe=%s"%universe)
             color+=c
 
@@ -143,7 +147,12 @@ for y_axis in ["time","diversity"]:
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
         ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
         ax.set_xlabel('Density')
-        ax.set_ylabel('Time (seconds)')
+        if y_axis == "time":
+            ax.set_ylabel('Time (seconds)')
+        elif y_axis == "diversity":
+            ax.set_ylabel('Diversity (#S)')
+        else:
+            raise IndexError
         #plt.yscale('log')
         plt.savefig("positive_tests_arity_%s_%s_%s.pdf"%(arity,y_axis,s_conf.replace("/","to")))
         plt.clf()
@@ -177,7 +186,12 @@ for y_axis in ["time","diversity"]:
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
         ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
         ax.set_xlabel('Density')
-        ax.set_ylabel('Time (seconds)')
+        if y_axis == "time":
+            ax.set_ylabel('Time (seconds)')
+        elif y_axis == "diversity":
+            ax.set_ylabel('Diversity (#S)')
+        else:
+            raise IndexError
         #plt.yscale('log')
         plt.savefig("positive_tests_arity_%s_%s_%s.pdf"%(arity,y_axis,s_conf.replace("/","to")))
         plt.clf()
