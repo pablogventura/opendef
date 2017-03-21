@@ -144,12 +144,12 @@ for y_axis in ["time","diversity"]:
         legend = ax.legend(loc='lower right')
         legend.get_frame().set_alpha(0.5)
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
-        ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
         ax.set_xlabel('Density')
         if y_axis == "time":
-            ax.set_ylabel('Time (seconds)')
+            ax.set_ylabel('Time (s)')
         elif y_axis == "diversity":
-            ax.set_ylabel('Diversity (#S)')
+            ax.set_ylabel('Diversity ($|\mathcal{S}|$)')
         else:
             raise IndexError
         #plt.yscale('log')
@@ -182,12 +182,12 @@ for y_axis in ["time","diversity"]:
         legend = ax.legend(loc='lower right')
         legend.get_frame().set_alpha(0.5)
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
-        ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
         ax.set_xlabel('Density')
         if y_axis == "time":
-            ax.set_ylabel('Time (seconds)')
+            ax.set_ylabel('Time (s)')
         elif y_axis == "diversity":
-            ax.set_ylabel('Diversity (#S)')
+            ax.set_ylabel('Diversity ($|\mathcal{S}|$)')
         else:
             raise IndexError
         #plt.yscale('log')
