@@ -144,7 +144,7 @@ for y_axis in ["time","diversity"]:
         legend = ax.legend(loc='lower right')
         legend.get_frame().set_alpha(0.5)
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
-        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf), fontsize=14, fontweight='bold')
         ax.set_xlabel('Density')
         if y_axis == "time":
             ax.set_ylabel('Time (s)')
@@ -182,7 +182,7 @@ for y_axis in ["time","diversity"]:
         legend = ax.legend(loc='lower right')
         legend.get_frame().set_alpha(0.5)
         s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
-        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        fig.suptitle('Positive tests, arity=%s, configuration=%s' % (arity,s_conf), fontsize=14, fontweight='bold')
         ax.set_xlabel('Density')
         if y_axis == "time":
             ax.set_ylabel('Time (s)')
