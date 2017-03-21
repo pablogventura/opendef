@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from collections import namedtuple, defaultdict
 import os
@@ -107,119 +108,80 @@ for quantity in range(1,1+1,1):
 print("PROCESSING FINISHED of %s files" % num_files)
 print("")
 
-import sys
-sys.exit(0)
 
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 #from mpl_toolkits.mplot3d import Axes3D
 #fig = plt.figure()
 #ax = fig.add_subplot(111, projection='3d')
 
-fig, ax = plt.subplots()
+for y_axis in ["time","diversity"]:
+    arity = 2
+    for quantity in range(1,4+1,1):
+        fig, ax = plt.subplots()
+        c=1/len(list(range(50,100+1,10)))#color
+        color=c
+        for universe in range(50,100+1,10):
+            x=[]
+            y=[]
+            for density in [0.1,0.2,0.3,0.4,0.5]:
+                #print("        Diversity: %s" % np.median(data[density][arity][universe][quantity].diversities))
+                x.append(density)
+                if y_axis == "time":
+                    y.append(np.median(data[density][arity][universe][quantity].times))
+                elif y_axis == "diversity":
+                    y.append(np.median(data[density][arity][universe][quantity].diversities))
+                else:
+                    raise IndexError
+            ax.plot(x, y, color=(color,0,0), linewidth=1.0, marker='o', linestyle="-",label="#Universe=%s"%universe)
+            color+=c
 
-c=1/len(list(range(200,450,50)))#color
-color=c
-arity=2
-for universe in range(200,450,50):
-    x=[]
-    y=[]
-    for size in range(5000,40000,5000):
-        if data[density][arity][universe][quantity].average_time != 3600:
-            x.append(size)
-            y.append(data[density][arity][universe][quantity].average_time)
-        
-    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
-    color+=c
-
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles, labels)
-legend = ax.legend(loc='lower right')
-legend.get_frame().set_alpha(0.5)
-ax.set_title('Positive tests, arity=%s' % arity)
-ax.set_xlabel('Model Size')
-ax.set_ylabel('Time (seconds)')
-#plt.yscale('log')
-plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"time"))
-plt.clf()
-
-fig, ax = plt.subplots()
-
-c=1/len(list(range(200,450,50)))#color
-color=c
-arity=2
-for universe in range(200,450,50):
-    x=[]
-    y=[]
-    for size in range(5000,40000,5000):
-        if data[density][arity][universe][quantity].average_diversity:
-            x.append(size)
-            y.append(data[density][arity][universe][quantity].average_diversity)
-        
-    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
-    color+=c
-
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles, labels)
-legend = ax.legend(loc='lower right')
-legend.get_frame().set_alpha(0.5)
-ax.set_title('Positive tests, arity=%s' % arity)
-ax.set_xlabel('Model Size')
-ax.set_ylabel('Diversity (#S)')
-#plt.yscale('log')
-plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"diversity"))
-plt.clf()
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles, labels)
+        legend = ax.legend(loc='lower right')
+        legend.get_frame().set_alpha(0.5)
+        s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
+        ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        ax.set_xlabel('Density')
+        ax.set_ylabel('Time (seconds)')
+        #plt.yscale('log')
+        plt.savefig("positive_tests_arity_%s_%s_%s.pdf"%(arity,y_axis,s_conf.replace("/","to")))
+        plt.clf()
 
 
-fig, ax = plt.subplots()
+    arity = 3
+    for quantity in range(1,1+1,1):
+        fig, ax = plt.subplots()
+        c=1/len(list(range(23,27+1,1)))#color
+        color=c
+        for universe in range(23,27+1,1):
+            x=[]
+            y=[]
+            for density in [0.1,0.2,0.3,0.4,0.5]:
+                #print("        Diversity: %s" % np.median(data[density][arity][universe][quantity].diversities))
+                x.append(density)
+                if y_axis == "time":
+                    y.append(np.median(data[density][arity][universe][quantity].times))
+                elif y_axis == "diversity":
+                    y.append(np.median(data[density][arity][universe][quantity].diversities))
+                else:
+                    raise IndexError
 
-c=1/len(list(range(25,45,5)))#color
-color=c
-arity=3
-for universe in range(25,45,5):
-    x=[]
-    y=[]
-    for size in range(5000,40000,5000):
-        if data[density][arity][universe][quantity].average_time != 3600:
-            x.append(size)
-            y.append(data[density][arity][universe][quantity].average_time)
-        
-    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
-    color+=c
+            ax.plot(x, y, color=(color,0,0), linewidth=1.0, marker='o', linestyle="-",label="#Universe=%s"%universe)
+            color+=c
 
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles, labels)
-legend = ax.legend(loc='lower right')
-legend.get_frame().set_alpha(0.5)
-ax.set_title('Positive tests, arity=%s' % arity)
-ax.set_xlabel('Model Size')
-ax.set_ylabel('Time (seconds)')
-plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"time"))
-plt.clf()
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles, labels)
+        legend = ax.legend(loc='lower right')
+        legend.get_frame().set_alpha(0.5)
+        s_conf = '+'.join([str(arity)]*quantity)+"/"+str(arity)
+        ax.set_title('Positive tests, arity=%s, configuration=%s' % (arity,s_conf))
+        ax.set_xlabel('Density')
+        ax.set_ylabel('Time (seconds)')
+        #plt.yscale('log')
+        plt.savefig("positive_tests_arity_%s_%s_%s.pdf"%(arity,y_axis,s_conf.replace("/","to")))
+        plt.clf()
 
-fig, ax = plt.subplots()
 
-c=1/len(list(range(25,45,5)))#color
-color=c
-arity=3
-for universe in range(25,45,5):
-    x=[]
-    y=[]
-    for size in range(5000,40000,5000):
-        if data[density][arity][universe][quantity].average_diversity:
-            x.append(size)
-            y.append(data[density][arity][universe][quantity].average_diversity)
-        
-    ax.plot(x, y, color=(color,0,0), linewidth=2.0, linestyle="-",label="#Universe=%s"%universe)
-    color+=c
-
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles, labels)
-legend = ax.legend(loc='lower right')
-legend.get_frame().set_alpha(0.5)
-ax.set_title('Positive tests, arity=%s' % arity)
-ax.set_xlabel('Model Size')
-ax.set_ylabel('Diversity (#S)')
-#plt.yscale('log')
-plt.savefig("positive_tests_arity_%s_%s.pdf"%(arity,"diversity"))
+import sys
+sys.exit(0)
