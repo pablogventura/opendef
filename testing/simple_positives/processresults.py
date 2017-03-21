@@ -83,9 +83,9 @@ for quantity in range(1,4+1,1):
         print("    Density: %s" % density)
         for universe in range(50,100+1,10):
             print("      Universe: %s" % universe)
-            print("        Definables: %.2f" % (data[density][arity][universe][quantity].definable / data[density][arity][universe][quantity].definable *100))
-            print("        Not definables: %.2f" % (data[density][arity][universe][quantity].not_definable / data[density][arity][universe][quantity].definable *100))
-            print("        Cancelled: %.2f" % (data[density][arity][universe][quantity].cancelled / data[density][arity][universe][quantity].definable *100))
+            print("        Definables: %.2f%%" % (data[density][arity][universe][quantity].definable / data[density][arity][universe][quantity].definable *100))
+            print("        Not definables: %.2f%%" % (data[density][arity][universe][quantity].not_definable / data[density][arity][universe][quantity].definable *100))
+            print("        Cancelled: %.2f%%" % (data[density][arity][universe][quantity].cancelled / data[density][arity][universe][quantity].definable *100))
             print("        Diversity: %s" % np.median(data[density][arity][universe][quantity].diversities))
             print("        Time: %s" % np.median(data[density][arity][universe][quantity].times))
 arity = 3
@@ -96,9 +96,9 @@ for quantity in range(1,1+1,1):
         print("    Density: %s" % density)
         for universe in range(23,27+1,1):
             print("      Universe: %s" % universe)
-            print("        Definables: %.2f" % (data[density][arity][universe][quantity].definable / data[density][arity][universe][quantity].definable *100))
-            print("        Not definables: %.2f" % (data[density][arity][universe][quantity].not_definable / data[density][arity][universe][quantity].definable *100))
-            print("        Cancelled: %.2f" % (data[density][arity][universe][quantity].cancelled / data[density][arity][universe][quantity].definable *100))
+            print("        Definables: %.2f%%" % (data[density][arity][universe][quantity].definable / data[density][arity][universe][quantity].definable *100))
+            print("        Not definables: %.2f%%" % (data[density][arity][universe][quantity].not_definable / data[density][arity][universe][quantity].definable *100))
+            print("        Cancelled: %.2f%%" % (data[density][arity][universe][quantity].cancelled / data[density][arity][universe][quantity].definable *100))
             print("        Diversity: %s" % np.median(data[density][arity][universe][quantity].diversities))
             print("        Time: %s" % np.median(data[density][arity][universe][quantity].times))
 

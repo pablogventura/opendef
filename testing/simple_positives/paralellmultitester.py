@@ -13,7 +13,7 @@ timeout = "45m"
 running = []
 waiting = []
 
-cores = 1
+cores = 10
 
 
 def num_order(f):
