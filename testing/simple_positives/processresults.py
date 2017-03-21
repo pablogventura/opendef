@@ -111,8 +111,8 @@ for quantity in range(1,1+1,1):
 print("PROCESSING FINISHED of %s files" % num_files)
 print("")
 
-
-
+markers=[".","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_"]
+markers=["o","s","p","*","+","D","d","|","_"]
 
 
 for y_axis in ["time","diversity"]:
@@ -122,8 +122,7 @@ for y_axis in ["time","diversity"]:
     arity = 2
     for quantity in range(1,4+1,1):
         fig, ax = plt.subplots()
-        c=1/len(list(range(50,100+1,10)))#color
-        color=c
+        marker=0
         for universe in range(50,100+1,10):
             x=[]
             y=[]
@@ -137,8 +136,8 @@ for y_axis in ["time","diversity"]:
                 else:
                     raise IndexError
             #dict_keys([' ', 'None', '', '-.', ':', '-', '--'])
-            ax.plot(x, y, color=(color,0,0), linewidth=1.0, marker='o', linestyle="-",label="#Universe=%s"%universe)
-            color+=c
+            ax.plot(x, y, color=(0,0,0), linewidth=1.0, marker=markers[marker], linestyle="-",label="#Universe=%s"%universe)
+            marker+=1
 
         handles, labels = ax.get_legend_handles_labels()
         ax.legend(handles, labels)
@@ -161,8 +160,7 @@ for y_axis in ["time","diversity"]:
     arity = 3
     for quantity in range(1,1+1,1):
         fig, ax = plt.subplots()
-        c=1/len(list(range(23,27+1,1)))#color
-        color=c
+        marker=0
         for universe in range(23,27+1,1):
             x=[]
             y=[]
@@ -176,8 +174,8 @@ for y_axis in ["time","diversity"]:
                 else:
                     raise IndexError
 
-            ax.plot(x, y, color=(color,0,0), linewidth=1.0, marker='o', linestyle="-",label="#Universe=%s"%universe)
-            color+=c
+            ax.plot(x, y, color=(0,0,0), linewidth=1.0, marker=markers[marker], linestyle="-",label="#Universe=%s"%universe)
+            marker+=1
 
         handles, labels = ax.get_legend_handles_labels()
         ax.legend(handles, labels)
