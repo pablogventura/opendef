@@ -83,9 +83,9 @@ for density in [0.1,0.2,0.3,0.4,0.5]:
     print("    Density: %s" % density)
     for universe in range(50,100+1,10):
         print("      Universe: %s" % universe)
-        print("        Definables: %.2f%%" % (data[density][universe].definable / data[density][universe].definable *100))
-        print("        Not definables: %.2f%%" % (data[density][universe].not_definable / data[density][universe].definable *100))
-        print("        Cancelled: %.2f%%" % (data[density][universe].cancelled / data[density][universe].definable *100))
+        print("        Definables: %.2f%%" % (data[density][universe].definable / data[density][universe].total *100))
+        print("        Not definables: %.2f%%" % (data[density][universe].not_definable / data[density][universe].total *100))
+        print("        Cancelled: %.2f%%" % (data[density][universe].cancelled / data[density][universe].total *100))
         print("        Diversity: %s" % np.median(data[density][universe].diversities))
         print("        Time: %s" % np.median(data[density][universe].times))
 
