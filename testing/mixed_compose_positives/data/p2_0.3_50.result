@@ -1,0 +1,25 @@
+Spectrum = [3, 2, 1]
+CANCELLED
+
+State before abort: 
+  Diversity = 5775
+    1-diversity = 4
+    2-diversity = 118
+    3-diversity = 5653
+  #Auts = 5934
+  #Isos = 24775
+  1304683 calls to Minion
+
+ Performance counter stats for 'timeout --signal=SIGINT 45m python3 ../../main.py':
+
+    1045743.243304      task-clock (msec)         #    0.387 CPUs utilized          
+         8,841,294      context-switches          #    0.008 M/sec                  
+         1,968,104      cpu-migrations            #    0.002 M/sec                  
+       570,220,717      page-faults               #    0.545 M/sec                  
+ 6,647,193,607,901      cycles                    #    6.356 GHz                    
+ 5,984,451,828,767      instructions              #    0.90  insn per cycle         
+ 1,237,271,667,865      branches                  # 1183.151 M/sec                  
+    23,686,533,122      branch-misses             #    1.91% of all branches        
+
+    2700.115220844 seconds time elapsed
+

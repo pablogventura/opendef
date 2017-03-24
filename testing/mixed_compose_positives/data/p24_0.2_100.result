@@ -1,0 +1,30 @@
+Exception ignored in: <bound method MinionSol.__del__ of <minion.MinionSol object at 0x2b07473927b8>>
+Traceback (most recent call last):
+  File "/home/pventura/relationaldef/minion.py", line 132, in __del__
+    if not self.EOF:
+AttributeError: 'MinionSol' object has no attribute 'EOF'
+Spectrum = [3, 2, 1]
+CANCELLED
+
+State before abort: 
+  Diversity = 3560
+    1-diversity = 4
+    2-diversity = 112
+    3-diversity = 3444
+  #Auts = 3688
+  #Isos = 32405
+  1196480 calls to Minion
+
+ Performance counter stats for 'timeout --signal=SIGINT 45m python3 ../../main.py':
+
+    1312083.838400      task-clock (msec)         #    0.486 CPUs utilized          
+         7,964,550      context-switches          #    0.006 M/sec                  
+         1,834,389      cpu-migrations            #    0.001 M/sec                  
+       517,036,057      page-faults               #    0.394 M/sec                  
+ 7,013,737,131,795      cycles                    #    5.345 GHz                    
+ 7,270,267,790,706      instructions              #    1.04  insn per cycle         
+ 1,528,365,237,495      branches                  # 1164.838 M/sec                  
+    25,705,361,421      branch-misses             #    1.68% of all branches        
+
+    2700.057876555 seconds time elapsed
+
