@@ -5,13 +5,13 @@ import subprocess as sp
 import time
 import datetime
 
-total=10
+total=20
 definables=0
 
 running=[]
 
-for i in range(10):
-    g = sp.Popen(["python","random_model_generator.py", "-d0.4", "-a2","-u60", "-q10"],stdin=sp.PIPE,stdout=sp.PIPE,stderr=sp.PIPE)
+for i in range(total):
+    g = sp.Popen(["python","random_model_generator.py", "-d0.2", "-a2","-u20", "-q10"],stdin=sp.PIPE,stdout=sp.PIPE,stderr=sp.PIPE)
     running.append(sp.Popen(["python","../../main.py"],stdin=g.stdout,stdout=sp.PIPE,stderr=sp.PIPE))
 
 while running:
