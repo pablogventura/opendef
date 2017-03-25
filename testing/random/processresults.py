@@ -81,7 +81,7 @@ if errors:
 
 for density in [0.1,0.2,0.3,0.4,0.5]:
     print("    Density: %s" % density)
-    for universe in range(50,100+1,10):
+    for universe in range(20,40+1,10):
         print("      Universe: %s" % universe)
         print("        Definables: %.2f%%" % (data[density][universe].definable / data[density][universe].total *100))
         print("        Not definables: %.2f%%" % (data[density][universe].not_definable / data[density][universe].total *100))
@@ -107,7 +107,7 @@ for y_axis in ["time","diversity","definability"]:
     marker=0
     max_y=-float("inf")
     min_y=float("inf")
-    for universe in range(50,100+1,10):
+    for universe in range(20,40+1,10):
         x=[]
         y=[]
         for density in [0.1,0.2,0.3,0.4,0.5]:
@@ -132,7 +132,7 @@ for y_axis in ["time","diversity","definability"]:
     legend = ax.legend(loc='lower right')
     legend.get_frame().set_alpha(0.5)
     s_conf = "3/2"
-    fig.suptitle('Positive tests, configuration=%s' % (s_conf), fontsize=14, fontweight='bold')
+    fig.suptitle('Random tests, configuration=%s' % (s_conf), fontsize=14, fontweight='bold')
     ax.set_xlabel('Density')
     ax.set_xlim([0.05,0.55])
     if min_y == max_y:
@@ -148,7 +148,7 @@ for y_axis in ["time","diversity","definability"]:
     else:
         raise IndexError
     #plt.yscale('log')
-    plt.savefig("positive_tests_%s_%s.pdf"%(y_axis,s_conf.replace("/","to")))
+    plt.savefig("random_tests_%s_%s.pdf"%(y_axis,s_conf.replace("/","to")))
     plt.clf()
 
 import sys
