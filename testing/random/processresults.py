@@ -131,7 +131,7 @@ for y_axis in ["time","diversity","definability"]:
     ax.legend(handles, labels)
     legend = ax.legend(loc='lower right')
     legend.get_frame().set_alpha(0.5)
-    s_conf = "3/2"
+    s_conf = '+'.join([str(2)]*10)+"/"+str(2)
     fig.suptitle('Random tests, configuration=%s' % (s_conf), fontsize=14, fontweight='bold')
     ax.set_xlabel('Density')
     ax.set_xlim([0.05,0.55])
