@@ -13,7 +13,7 @@ def main():
     if not targets_rel:
         print("ERROR: NO TARGET RELATIONS FOUND")
         return
-    is_open_rel(model,targets_rel)
+    is_open_positive_rel(model,targets_rel)
         
 
 class GenStack(object):
@@ -35,17 +35,30 @@ class GenStack(object):
         return result
             
         
-def find_bihomos(model, models, rels):
+def is_isomorphic_to_any_via_bihomos(model, models, rels):
     models_eq=[]
     models_l=[]
     models_g=[]
     for m in models:
-        if model.rels_sizes(rels) == m.rels_sizes(rels):
+        if m.rels_sizes(rels) == model.rels_sizes(rels):
             models_eq.append(m)
-        elif model.rels_sizes(rels) > m.rels_sizes(rels):
+        elif m.rels_sizes(rels) < model.rels_sizes(rels):
             models_l.append(m)
-        elif model.rels_sizes(rels) < m.rels_sizes(rels):
+        elif m.rels_sizes(rels) > model.rels_sizes(rels):
             models_g.append(m)
+    iso = bihomomorphism_to_any(model, models_eq, rels)
+    if iso:
+        # iso is a isomorphism, because is a bihomo to model_eq
+        return iso
+    for bh in bihomomorphisms_from_any(models_l, model, rels):
+        # bh is a bihomo from models_l to model
+        if not bh.homo_wrt:
+            raise Counterexample(bh)
+    for bh in bihomomorphisms_to_any(model, models_g, rels):
+        # bh is a bihomo from models_l to model
+        if not bh.homo_wrt:
+            raise Counterexample(bh)
+    return False
 
 def is_open_positive_rel(model, target_rels):
     base_rels = tuple((r for r in model.relations if r not in target_rels))
@@ -66,7 +79,7 @@ def is_open_positive_rel(model, target_rels):
                 current = genstack.next()
             except StopIteration:
                 break
-            iso = is_isomorphic_to_any(current, S, base_rels)
+            iso = is_isomorphic_to_any_via_bihomos(current, S, base_rels)
             if iso:
                 isos_count += 1
                 if not iso.iso_wrt(target_rels):
@@ -85,6 +98,13 @@ def is_open_positive_rel(model, target_rels):
                 except StopIteration:
                     # no tiene mas hijos
                     pass
+        for a in S:
+            for b in S:
+                if len(b) < len(a):
+                    for h in homomorphisms_sobre(a,b,base_rels):
+                        if not h.homo_wrt(target_rels):
+                            raise Counterexample(h)
+                
         print("DEFINABLE")
         print("\nFinal state: ")
         
