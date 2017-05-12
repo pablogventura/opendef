@@ -4,7 +4,21 @@
 
 from itertools import combinations
 from functools import lru_cache
-
+class PartialOrderedDict(dict):
+    def __lt__(self, other): # <
+        return self <= other and self != other
+    def __gt__(self, other): # >
+        return self >= other and self != other
+    def __le__(self, other): # <=
+        for k in self:
+            if not self[k] <= other[k]:
+                return False
+        return True
+    def __ge__(self, other): # >=
+        for k in self:
+            if not self[k] >= other[k]:
+                return False
+        return True
 class RelationalModel(object):
     def __init__(self,universe,relations):
         """
@@ -31,7 +45,7 @@ class RelationalModel(object):
     
     @lru_cache(maxsize=2)
     def rels_sizes(self,subtype):
-        return {r:len(self.relations[r]) for r in subtype}
+        return PartialOrderedDict({r:len(self.relations[r]) for r in subtype})
     
     @lru_cache(maxsize=None)    
     def minion_tables(self,subtype):

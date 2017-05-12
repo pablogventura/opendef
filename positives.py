@@ -3,7 +3,7 @@
 from counterexample import Counterexample
 from minion import is_isomorphic
 from parser import stdin_parser
-from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
+from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol,bihomomorphisms_from_any,bihomomorphisms_to_any, homomorphisms_surj
 from itertools import chain
 from misc import indent
 
@@ -46,7 +46,7 @@ def is_isomorphic_to_any_via_bihomos(model, models, rels):
             models_l.append(m)
         elif m.rels_sizes(rels) > model.rels_sizes(rels):
             models_g.append(m)
-    iso = bihomomorphism_to_any(model, models_eq, rels)
+    iso = is_isomorphic_to_any(model, models_eq, rels)
     if iso:
         # iso is a isomorphism, because is a bihomo to model_eq
         return iso
@@ -101,7 +101,7 @@ def is_open_positive_rel(model, target_rels):
         for a in S:
             for b in S:
                 if len(b) < len(a):
-                    for h in homomorphisms_sobre(a,b,base_rels):
+                    for h in homomorphisms_surj(a,b,base_rels):
                         if not h.homo_wrt(target_rels):
                             raise Counterexample(h)
                 

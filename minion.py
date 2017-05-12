@@ -7,7 +7,7 @@ import codecs
 import subprocess as sp
 from select import poll, POLLIN
 
-from isomorphisms import Automorphism, Isomorphism
+from isomorphisms import Automorphism, Isomorphism, Homomorphism
 import config
 import files
 from itertools import product
@@ -171,9 +171,78 @@ def isomorphisms(source,target,subtype,allsols=True):
     
     return MinionSol(result,allsols,fun=lambda iso:(Isomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
 
+def bihomomorphisms(source,target,subtype,allsols=True):
+    if len(source)!=len(target):
+        return [] # generador vacio
+    
+    if source.rels_sizes(subtype) > target.rels_sizes(subtype):
+        return [] # generador vacio
+    
+    result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(source),len(target)-1)
+    result += "**TUPLELIST**\n"
+    result += target.minion_tables(subtype)
+    result += "**CONSTRAINTS**\n"
+    result += source.minion_constraints(subtype)
+    result += "alldiff([f["
+    result += "],f[".join(str(i) for i in range(len(source)))
+    result += "]])\n"
+    result += "**EOF**" 
+    
+    
+    
+    return MinionSol(result,allsols,fun=lambda iso:(Homomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
 
+def homomorphisms_surj(source,target,subtype,allsols=True):
+    if len(source)<len(target):
+        return [] # generador vacio
+    
+    if source.rels_sizes(subtype) > target.rels_sizes(subtype):
+        return [] # generador vacio
+    
+    result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(source),len(target)-1)
+    result += "**TUPLELIST**\n"
+    result += target.minion_tables(subtype)
+    result += "**CONSTRAINTS**\n"
+    result += source.minion_constraints(subtype)
+    result += "**EOF**" 
+    
+    
+    
+    return MinionSol(result,allsols,fun=lambda iso:(Homomorphism({source.universe[k]:target.universe[iso[k]] for k in iso},source,target,subtype)))
 
+def is_bihomomorphic(source,target,subtype):
+    bh = bihomomorphisms(source,target,subtype,allsols=False)
+    
+    if bh:
+        return bh[0]
+    else:
+        return False
 
+def bihomomorphisms_to_any(source, targets, subtype):
+    """
+    Devuelve un iso si source es bihomomorfica a algun target
+    sino, false. Usa multiples preguntas a minion en paralelo.
+    """
+    if not targets:
+        return
+    
+    for target in targets:
+        for bh in bihomomorphisms(source,target,subtype):
+            yield bh
+    return
+
+def bihomomorphisms_from_any(sources, target, subtype):
+    """
+    Devuelve un iso si algun source es bihomomorfica al target
+    sino, false. Usa multiples preguntas a minion en paralelo.
+    """
+    if not sources:
+        return
+    
+    for source in sources:
+        for bh in bihomomorphisms(source,target,subtype):
+            yield bh
+    return
 
 def is_isomorphic(source, target, subtype):
 
