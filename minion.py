@@ -14,6 +14,10 @@ from itertools import product
 from collections import defaultdict
 from misc import *
 
+def identity_table(size):
+    result = "I 1 %s\n" % size
+    result += " ".join(str(i) for i in range(size))
+    return result + "\n"
 
 class MinionSol(object):
     count = 0
@@ -48,9 +52,9 @@ class MinionSol(object):
         Bloquea hasta conseguir una solucion, o el EOF
         La parsea y devuelve una lista
         """
-        str_sol = self.minionapp.stdout.readline().decode('utf-8')
+        str_sol = self.minionapp.stdout.readline().decode('utf-8').strip()
+        
         if str_sol:
-            str_sol = str_sol[:-1]  # borro el \n
             try:
                 result = list(map(int, str_sol.strip().split(" ")))
                 for i, v in enumerate(result):
@@ -138,13 +142,17 @@ def automorphisms(model,subtype):
     result = "MINION 3\n**VARIABLES**\nDISCRETE f[%s]{0..%s}\n" % (len(model),len(model)-1)
     result += "**TUPLELIST**\n"
     result += model.minion_tables(subtype)
+    result += identity_table(len(model))
     result += "**CONSTRAINTS**\n"
     result += model.minion_constraints(subtype)
     result += "alldiff([f["
     result += "],f[".join(str(i) for i in range(len(model)))
     result += "]])\n"
+    result += "negativetable([f[" # evito identidades
+    result += "],f[".join(str(i) for i in range(len(model)))
+    result += "]],I)\n"
     result += "**EOF**" 
-    
+
     
     
     return MinionSol(result,allsols=True,fun=lambda aut:(Automorphism({model.universe[k]:model.universe[aut[k]] for k in aut},model,subtype)))
