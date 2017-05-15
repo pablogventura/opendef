@@ -19,22 +19,22 @@ def main():
 class GenStack(object):
     def __init__(self, generator):
         self.stack = [generator]
+        self.history=set()
     
     def add(self,generator):
         self.stack.append(generator)
     
     def next(self):
         result = None
-        while result is None:
+        while result is None or frozenset(result.universe) in self.history:
             try:
                 result = next(self.stack[-1])
             except IndexError:
                 raise StopIteration
             except StopIteration:
                 del self.stack[-1]
+        self.history.add(frozenset(result.universe))
         return result
-            
-        
 
 
 def is_open_rel(model, target_rels):
