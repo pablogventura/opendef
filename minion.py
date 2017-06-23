@@ -270,7 +270,7 @@ def is_isomorphic_to_any(source, targets, subtype):
     if not targets:
         return False
     
-    for target in targets:
+    for target in targets.iterate(len(source)):
         iso = is_isomorphic(source,target,subtype)
         if iso:
             return iso

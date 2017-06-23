@@ -6,6 +6,7 @@ from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from itertools import chain
 from misc import indent
+from collections import defaultdict
 
 def main():
     model = stdin_parser()
@@ -14,7 +15,24 @@ def main():
         print("ERROR: NO TARGET RELATIONS FOUND")
         return
     is_open_rel(model,targets_rel)
-        
+
+class SetSized(object):
+    def __init__(self):
+        self.dict = defaultdict(set)
+    
+    def add(self,e):
+        self.dict[len(e)].add(e)
+    
+    def __iter__(self):
+        assert False
+    def __len__(self):
+        return sum(self.len(s) for s in self.sizes())
+    def len(self,size):
+        return len(self.dict[size])
+    def sizes(self):
+        return sorted(self.dict.keys())
+    def iterate(self,size):
+        return iter(self.dict[size])
 
 class GenStack(object):
     def __init__(self, generator):
@@ -47,7 +65,7 @@ def is_open_rel(model, target_rels):
     print ("Spectrum = %s"%spectrum)
     isos_count = 0
     auts_count = 0
-    S = set()
+    S = SetSized()
     
     genstack = GenStack(model.substructures(size))
     try:
@@ -88,9 +106,8 @@ def is_open_rel(model, target_rels):
         print("\nState before abort: ")
     
     print ("  Diversity = %s"%len(S))
-    if S:
-        for k in range(1,max(map(len,S))+1):
-            print("    %s-diversity = %s"%(k,len(list(filter(lambda s: len(s)==k,S)))))
+    for size in S.sizes():
+        print("    %s-diversity = %s"%(size,S.len(size)))
     print("  #Auts = %s" % auts_count)
     print("  #Isos = %s" % isos_count)
     print("  %s calls to Minion" % MinionSol.count)
