@@ -7,7 +7,7 @@ from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol,
 from itertools import chain
 from misc import indent
 from main import SetSized, GenStack
-
+from isomorphisms import Isomorphism
 H = []
 
 def main():
@@ -113,7 +113,21 @@ def is_open_positive_rel(model, target_rels):
     print("  #Auts = %s" % auts_count)
     print("  #Isos = %s" % isos_count)
     print("  #H    = %s" % len(H))
+    from itertools import product
+    preorden=[]
+    for t in product(model.universe,repeat=model.relations["T0"].arity):
+        for h in H:
+            if isinstance(h,Isomorphism):
+                ht=h.inverse().vcall(t)
+                if None not in ht:
+                    preorden.append((t,ht))
+            ht=h.vcall(t)
+            if None not in ht:
+                preorden.append((t,ht))
     print("  %s calls to Minion" % MinionSol.count)
+    print("")
+    for t in preorden:
+        print (t)
 
 
 if __name__ == "__main__":

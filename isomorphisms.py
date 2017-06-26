@@ -11,9 +11,12 @@ class Homomorphism(object):
         self.subtype = subtype
         
     def __call__(self, x):
-        return self.values[x]
+        try:
+            return self.values[x]
+        except KeyError:
+            return
     def vcall(self,xvector):
-        return tuple(self.call(x) for x in xvector)
+        return tuple(self(x) for x in xvector)
     def __repr__(self):
         result = "Homomorphism(\n"
         for a,b in self.values.items():
@@ -41,9 +44,15 @@ class Isomorphism(object):
         self.subtype = subtype
         
     def __call__(self, x):
+        try:
+            return self.values[x]
+        except KeyError:
+            return
         return self.values[x]
+    def inverse(self):
+        return Isomorphism({v:k for k,v in self.values.items()},self.target, self.source,self.subtype)
     def vcall(self,xvector):
-        return tuple(self.call(x) for x in xvector)
+        return tuple(self(x) for x in xvector)
     def __repr__(self):
         result = "Isomorphism(\n"
         for a,b in self.values.items():
@@ -70,9 +79,13 @@ class Automorphism(object):
         self.model = model
         self.subtype = subtype
     def __call__(self, x):
+        try:
+            return self.values[x]
+        except KeyError:
+            return
         return self.values[x]
     def vcall(self,xvector):
-        return tuple(self.call(x) for x in xvector)
+        return tuple(self(x) for x in xvector)
     def __repr__(self):
         result = "Automorphism(\n"
         for a,b in self.values.items():
