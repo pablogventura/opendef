@@ -17,14 +17,20 @@ def main():
     is_open_rel(model,targets_rel)
 
 class SetSized(object):
-    def __init__(self):
+    def __init__(self,values=[]):
         self.dict = defaultdict(set)
+        for v in values:
+            self.add(v)
     
     def add(self,e):
         self.dict[len(e)].add(e)
     
     def __iter__(self):
-        assert False
+        print("WARNING: __iter__ SetSized")
+        for i in self.sizes():
+            for v in self.iterate(i):
+                yield v
+
     def __len__(self):
         return sum(self.len(s) for s in self.sizes())
     def len(self,size):

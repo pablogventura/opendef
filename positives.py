@@ -6,6 +6,7 @@ from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol,bihomomorphisms_from_any,bihomomorphisms_to_any, homomorphisms_surj
 from itertools import chain
 from misc import indent
+from main import SetSized, GenStack
 
 def main():
     model = stdin_parser()
@@ -14,39 +15,20 @@ def main():
         print("ERROR: NO TARGET RELATIONS FOUND")
         return
     is_open_positive_rel(model,targets_rel)
-        
 
-class GenStack(object):
-    def __init__(self, generator):
-        self.stack = [generator]
-    
-    def add(self,generator):
-        self.stack.append(generator)
-    
-    def next(self):
-        result = None
-        while result is None:
-            try:
-                result = next(self.stack[-1])
-            except IndexError:
-                raise StopIteration
-            except StopIteration:
-                del self.stack[-1]
-        return result
-            
         
 def is_isomorphic_to_any_via_bihomos(model, models, rels):
     models_eq=[]
     models_l=[]
     models_g=[]
-    for m in models:
+    for m in models.iterate(len(model)):
         if m.rels_sizes(rels) == model.rels_sizes(rels):
             models_eq.append(m)
         elif m.rels_sizes(rels) < model.rels_sizes(rels):
             models_l.append(m)
         elif m.rels_sizes(rels) > model.rels_sizes(rels):
             models_g.append(m)
-    iso = is_isomorphic_to_any(model, models_eq, rels)
+    iso = is_isomorphic_to_any(model, SetSized(models_eq), rels)
     if iso:
         # iso is a isomorphism, because is a bihomo to model_eq
         return iso
@@ -70,7 +52,7 @@ def is_open_positive_rel(model, target_rels):
     print ("Spectrum = %s"%spectrum)
     isos_count = 0
     auts_count = 0
-    S = set()
+    S = SetSized()
     
     genstack = GenStack(model.substructures(size))
     try:
