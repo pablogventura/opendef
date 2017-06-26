@@ -12,6 +12,8 @@ class Homomorphism(object):
         
     def __call__(self, x):
         return self.values[x]
+    def vcall(self,xvector):
+        return tuple(self.call(x) for x in xvector)
     def __repr__(self):
         result = "Homomorphism(\n"
         for a,b in self.values.items():
@@ -40,6 +42,8 @@ class Isomorphism(object):
         
     def __call__(self, x):
         return self.values[x]
+    def vcall(self,xvector):
+        return tuple(self.call(x) for x in xvector)
     def __repr__(self):
         result = "Isomorphism(\n"
         for a,b in self.values.items():
@@ -67,6 +71,8 @@ class Automorphism(object):
         self.subtype = subtype
     def __call__(self, x):
         return self.values[x]
+    def vcall(self,xvector):
+        return tuple(self.call(x) for x in xvector)
     def __repr__(self):
         result = "Automorphism(\n"
         for a,b in self.values.items():
