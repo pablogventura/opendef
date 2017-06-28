@@ -8,6 +8,7 @@ from itertools import chain
 from misc import indent
 from main import SetSized, GenStack
 from isomorphisms import Isomorphism
+from collections import defaultdict
 H = []
 
 def main():
@@ -126,9 +127,48 @@ def is_open_positive_rel(model, target_rels):
                 preorden.append((t,ht))
     print("  %s calls to Minion" % MinionSol.count)
     print("")
-    for t in preorden:
-        print (t)
+    
+    po = defaultdict(set)
+    for a,b in preorden:
+        po[a].add(b)
+        
+    for a in po:
+        print((a,po[a]))
+    
+    print("")
+    j,r=preorden_a_orden(product(model.universe,repeat=model.relations["T0"].arity),po)
+    for k in j:
+        print ((k,j[k]))
+    print("")
+    for i in r:
+        print(i)
+    
 
+def preorden_a_orden(universo,r):
+    clases=dict()
+    rc=set()
+    for e in universo:
+        clases[e] = set([e])
+    for a in r:
+        for b in r[a]:
+            if a in r[b]:
+                clases[a]=clases[a].union(clases[b])
+                clases[b]=set()
+    for k in list(clases.keys()):
+        if not clases[k]:
+            del clases[k]
+               
+    for a in r:
+        if b in r[a]:
+            if representante(a,clases)!=representante(b,clases):
+                rc.add((representante(a,clases),representante(b,clases)))
+    return clases,rc
+
+def representante(elemento,clases):
+    for clase in clases:
+        if elemento in clases[clase]:
+            return clase
+    raise IndexError
 
 if __name__ == "__main__":
     main()
