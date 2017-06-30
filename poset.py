@@ -151,7 +151,7 @@ def preorden_a_orden(universo,r):
         clases[e] = set([e])
     for a in r:
         for b in r[a]:
-            if a in r[b]:
+            if b in r and a in r[b]:
                 clases[a]=clases[a].union(clases[b])
                 clases[b]=set()
     for k in list(clases.keys()):
