@@ -9,6 +9,7 @@ from misc import indent
 from main import SetSized, GenStack
 from isomorphisms import Isomorphism
 from collections import defaultdict
+from formulas import atomics, variables, RelSym
 H = []
 
 def main():
@@ -136,14 +137,46 @@ def is_open_positive_rel(model, target_rels):
         print((a,po[a]))
     
     print("")
+    #imprimo los atomos
+    
     j,r=preorden_a_orden(product(model.universe,repeat=model.relations["T0"].arity),po)
     for k in j:
         print ((k,j[k]))
+    print("son %s atomos" % len(j))
     print("")
+
+    #impmrimo los bihomos
     for i in r:
         print(i)
+    print("ahora vien")
+    r = dict(r)
+    estan={}
+    noestan={}
     
-
+    for k in j:
+        if model.relations["T0"](*k):
+            estan[k]=j[k]
+            print((k,j[k]))
+        else:
+            noestan[k]=j[k]
+    print("estan %s atomos" % len(estan))
+    vs = variables(*range(model.relations["T0"].arity))
+    formula=[]
+    for k in estan:
+        formula.append([])
+        for f in atomics([RelSym(r,model.relations[r].arity) for r in base_rels],vs):
+            vector = {}
+            if f.satisfy(model,{vs[i]:e for i,e in enumerate(k)}):
+                formula[-1].append(f)
+            if k in r and r[k] in noestan:
+                print("noestan")
+    print("#"*80)
+    print (formula)
+    
+    
+    
+    
+    
 def preorden_a_orden(universo,r):
     clases=dict()
     rc=set()
