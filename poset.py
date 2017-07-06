@@ -169,7 +169,7 @@ def is_open_positive_rel(model, target_rels):
             if f.satisfy(model,{vs[i]:e for i,e in enumerate(k)}):
                 formula[-1].append(f)
             if k in r and r[k] in noestan:
-                print("noestan")
+                print("noestan "*80)
     print("#"*80)
     print (formula)
     
