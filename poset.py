@@ -129,6 +129,7 @@ def is_open_positive_rel(model, target_rels):
     print("  %s calls to Minion" % MinionSol.count)
     print("")
     
+    print("Preorden:")
     po = defaultdict(set)
     for a,b in preorden:
         po[a].add(b)
@@ -138,7 +139,7 @@ def is_open_positive_rel(model, target_rels):
     
     print("")
     #imprimo los atomos
-    
+    print("Atomos:")
     j,r=preorden_a_orden(product(model.universe,repeat=model.relations["T0"].arity),po)
     for k in j:
         print ((k,j[k]))
@@ -146,20 +147,26 @@ def is_open_positive_rel(model, target_rels):
     print("")
 
     #impmrimo los bihomos
+    print("Bihomos:")
     for i in r:
         print(i)
-    print("ahora vien")
+    print("ahora vienen")
     r = dict(r)
     estan={}
     noestan={}
     
+    
     for k in j:
         if model.relations["T0"](*k):
             estan[k]=j[k]
+            print("esta")
             print((k,j[k]))
         else:
+            print("no esta")
+            print((k,j[k]))
             noestan[k]=j[k]
     print("estan %s atomos" % len(estan))
+    
     vs = variables(*range(model.relations["T0"].arity))
     formula=[]
     for k in estan:
@@ -168,6 +175,9 @@ def is_open_positive_rel(model, target_rels):
             vector = {}
             if f.satisfy(model,{vs[i]:e for i,e in enumerate(k)}):
                 formula[-1].append(f)
+            print("erre")
+            print(r)
+            print("erref")
             if k in r and r[k] in noestan:
                 print("noestan "*80)
     print("#"*80)
@@ -184,16 +194,24 @@ def preorden_a_orden(universo,r):
         clases[e] = set([e])
     for a in r:
         for b in r[a]:
-            if b in r and a in r[b]:
+            if a!=b and b in r and a in r[b]:
                 clases[a]=clases[a].union(clases[b])
                 clases[b]=set()
+    print("estamos al medio")
+    for k in clases:
+        print ((k,clases[k]))
+    print("ya paso")
     for k in list(clases.keys()):
         if not clases[k]:
+            print("borro %s" % repr(k))
             del clases[k]
                
     for a in r:
         if b in r[a]:
             if representante(a,clases)!=representante(b,clases):
+                print("r"*80)
+                print((representante(a,clases),representante(b,clases)))
+                print("r"*80)
                 rc.add((representante(a,clases),representante(b,clases)))
     return clases,rc
 
@@ -201,6 +219,7 @@ def representante(elemento,clases):
     for clase in clases:
         if elemento in clases[clase]:
             return clase
+    print("el elemento %s, no esta representado en %s"%(elemento,clases))
     raise IndexError
 
 if __name__ == "__main__":
