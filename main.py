@@ -4,10 +4,19 @@ from counterexample import Counterexample
 from minion import is_isomorphic
 from parser import stdin_parser
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
-from itertools import chain
+from itertools import chain,count
 from misc import indent
 from collections import defaultdict
+import operator as op
+from functools import reduce
 
+def ncr(n, r):
+    r = min(r, n-r)
+    if r == 0: return 1
+    numer = reduce(op.mul, range(n, n-r, -1))
+    denom = reduce(op.mul, range(1, r+1))
+    return numer//denom
+    
 def main():
     model = stdin_parser()
     targets_rel = tuple(sym for sym in model.relations.keys() if sym[0]=="T")
@@ -41,23 +50,28 @@ class SetSized(object):
         return iter(self.dict[size])
 
 class GenStack(object):
-    def __init__(self, generator):
-        self.stack = [generator]
+    def __init__(self, generator,total=None):
+        self.stack = [(generator,count(1),total)]
         self.history=set()
     
-    def add(self,generator):
-        self.stack.append(generator)
+    def add(self,generator,total=None):
+        self.stack.append((generator,count(1),total))
     
     def next(self):
         result = None
         while result is None or frozenset(result.universe) in self.history:
             try:
-                result = next(self.stack[-1])
+                result = next(self.stack[-1][0])
+
             except IndexError:
                 raise StopIteration
             except StopIteration:
                 del self.stack[-1]
+                print ("\n", end="\r")
         self.history.add(frozenset(result.universe))
+        i = next(self.stack[-1][1])
+        total = self.stack[-1][2]
+        print ("Analizando %s de %s" % (i,total), end="\r")
         return result
 
 
@@ -73,7 +87,7 @@ def is_open_rel(model, target_rels):
     auts_count = 0
     S = SetSized()
     
-    genstack = GenStack(model.substructures(size))
+    genstack = GenStack(model.substructures(size),ncr(len(model), size))
     try:
         while True:
             try:
@@ -95,7 +109,7 @@ def is_open_rel(model, target_rels):
                 try:
                     # EL SIGUIENTE EN EL ESPECTRO QUE SEA MAS CHICO QUE LEN DE SUBUNIVERSE
                     size = next(x for x in spectrum if x < len(current)) 
-                    genstack.add(current.substructures(size))
+                    genstack.add(current.substructures(size),ncr(len(current), size))
                 except StopIteration:
                     # no tiene mas hijos
                     pass
