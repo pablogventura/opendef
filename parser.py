@@ -19,7 +19,7 @@ def stdin_parser():
     linenumber = 1
     relations = {}
     try:
-        universe = map(int,input().split()) # first line, universe
+        universe = [int(i) for i in input().split()] # first line, universe
         linenumber += 1
         assert input() == "", ("Line #%s must be empty"%linenumber)
         linenumber += 1
@@ -37,6 +37,7 @@ def stdin_parser():
                 break
 
             ntuples,arity = int(ntuples),int(arity)
+            print("%s density: %f" % (sym, float(ntuples)/(len(universe)**arity)))
             relation = Relation(sym,arity)
             for i in range(ntuples):
                 relation.add(tuple(map(int,input().split())))

@@ -67,7 +67,7 @@ class GenStack(object):
                 raise StopIteration
             except StopIteration:
                 del self.stack[-1]
-                print ("\n", end="\r")
+                #print ("\n", end="\r")
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
