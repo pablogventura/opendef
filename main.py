@@ -9,7 +9,13 @@ from misc import indent
 from collections import defaultdict
 import operator as op
 from functools import reduce
+import resource
 
+def childrens_time():
+    time = resource.getrusage(resource.RUSAGE_CHILDREN)
+    time = time[0]+time[1] #user + system
+    return time
+    
 def ncr(n, r):
     r = min(r, n-r)
     if r == 0: return 1
@@ -50,13 +56,13 @@ class SetSized(object):
         return iter(self.dict[size])
 
 class GenStack(object):
-    def __init__(self, generator,total=None):
+    def __init__(self, generator,total=None, pp_d=[]):
         self.stack = [(generator,count(1),total)]
         self.history=set()
-    
+        self.pp_d=pp_d
     def add(self,generator,total=None):
         self.stack.append((generator,count(1),total))
-    
+        #print ("\n", end="\r")
     def next(self):
         result = None
         while result is None or frozenset(result.universe) in self.history:
@@ -67,11 +73,11 @@ class GenStack(object):
                 raise StopIteration
             except StopIteration:
                 del self.stack[-1]
-                #print ("\n", end="\r")
+                #print ("\b"*500)#, end="\r")
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
-        print ("Analizando %s de %s" % (i,total), end="\r")
+        print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
 
@@ -87,7 +93,7 @@ def is_open_rel(model, target_rels):
     auts_count = 0
     S = SetSized()
     
-    genstack = GenStack(model.substructures(size),ncr(len(model), size))
+    genstack = GenStack(model.substructures(size),ncr(len(model), size),S)
     try:
         while True:
             try:
@@ -131,6 +137,7 @@ def is_open_rel(model, target_rels):
     print("  #Auts = %s" % auts_count)
     print("  #Isos = %s" % isos_count)
     print("  %s calls to Minion" % MinionSol.count)
+    print("  Minion total time = %s secs" % childrens_time())
 
 
 
