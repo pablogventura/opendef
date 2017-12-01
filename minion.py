@@ -27,6 +27,7 @@ class MinionSol(object):
         Toma el input para minion, si espera todas las soluciones y una funcion para aplicar
         a las listas que van a ir siendo soluciones.
         """
+        self.EOF = False
         self.id = MinionSol.count
         MinionSol.count += 1
 
@@ -44,7 +45,6 @@ class MinionSol(object):
         self.minionapp = sp.Popen([config.minion_path + "minion"] + minionargs,
                                   stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
         files.write(self.input_filename, input_data)
-        self.EOF = False
         self.solutions = []
 
     def __parse_solution(self):
