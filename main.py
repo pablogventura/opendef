@@ -10,7 +10,9 @@ from collections import defaultdict
 import operator as op
 from functools import reduce
 import resource
+import sys
 
+verbose=sys.stdout.isatty()
 def childrens_time():
     time = resource.getrusage(resource.RUSAGE_CHILDREN)
     time = time[0]+time[1] #user + system
@@ -77,7 +79,8 @@ class GenStack(object):
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
-        print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
+        if verbose:
+            print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
 
