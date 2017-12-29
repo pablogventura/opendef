@@ -11,6 +11,9 @@ import operator as op
 from functools import reduce
 import resource
 
+
+latex_tree =""
+
 def childrens_time():
     time = resource.getrusage(resource.RUSAGE_CHILDREN)
     time = time[0]+time[1] #user + system
@@ -60,15 +63,16 @@ class GenStack(object):
         self.stack = [(generator,count(1),total)]
         self.history=set()
         self.pp_d=pp_d
+        self.tabs = 0
+        self.old_total = float("inf")
     def add(self,generator,total=None):
         self.stack.append((generator,count(1),total))
-        #print ("\n", end="\r")
     def next(self):
+        global latex_tree
         result = None
         while result is None or frozenset(result.universe) in self.history:
             try:
                 result = next(self.stack[-1][0])
-
             except IndexError:
                 raise StopIteration
             except StopIteration:
@@ -77,11 +81,21 @@ class GenStack(object):
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
+        agregar=""
+        if self.old_total > total:
+            self.tabs +=1
+        elif self.old_total < total:
+            self.tabs -=1
+            
+        self.old_total = total
+        latex_tree+=("  " * self.tabs)+"[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(result.universe))
+        latex_tree+=("  " * self.tabs)+"]\n"
         print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
 
 def is_open_rel(model, target_rels):
+    global latex_tree
     base_rels = tuple((r for r in model.relations if r not in target_rels))
     spectrum = sorted(model.spectrum(target_rels),reverse=True)
     if spectrum:
@@ -138,6 +152,8 @@ def is_open_rel(model, target_rels):
     print("  #Isos = %s" % isos_count)
     print("  %s calls to Minion" % MinionSol.count)
     print("  Minion total time = %s secs" % childrens_time())
+    print("")
+    print(latex_tree)
 
 
 
