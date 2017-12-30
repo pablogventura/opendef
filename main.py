@@ -10,9 +10,11 @@ from collections import defaultdict
 import operator as op
 from functools import reduce
 import resource
-
+import sys
 
 latex_tree =""
+
+verbose=sys.stdout.isatty()
 
 def childrens_time():
     time = resource.getrusage(resource.RUSAGE_CHILDREN)
@@ -81,7 +83,6 @@ class GenStack(object):
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
-        agregar=""
         if self.old_total > total:
             self.tabs +=1
         elif self.old_total < total:
