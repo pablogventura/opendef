@@ -86,10 +86,13 @@ class GenStack(object):
             self.tabs +=1
         elif self.old_total < total:
             self.tabs -=1
+            latex_tree+=("  " * self.tabs)+"]\n"
+            latex_tree+=("  " * self.tabs)+"]\n"
+        else:
+            latex_tree+=("  " * self.tabs)+"]\n"
             
         self.old_total = total
         latex_tree+=("  " * self.tabs)+"[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(result.universe))
-        latex_tree+=("  " * self.tabs)+"]\n"
         print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
@@ -153,9 +156,18 @@ def is_open_rel(model, target_rels):
     print("  %s calls to Minion" % MinionSol.count)
     print("  Minion total time = %s secs" % childrens_time())
     print("")
-    print(latex_tree)
-
-
+    latex_tree = ("[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(model.universe))) + latex_tree
+    latex_tree +="]]\n"
+    
+    ftarget = file("arbol.tex","w")
+    base = file("base1.tex","r")
+    ftarget.write(base.read())
+    base.close()
+    ftarget.write(latex_tree)
+    base = file("base2.tex","r")
+    ftarget.write(base.read())
+    base.close()
+    ftarget.close()
 
 if __name__ == "__main__":
     main()
