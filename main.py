@@ -159,12 +159,12 @@ def is_open_rel(model, target_rels):
     latex_tree = ("[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(model.universe))) + latex_tree
     latex_tree +="]]\n"
     
-    ftarget = file("arbol.tex","w")
-    base = file("base1.tex","r")
+    ftarget = open("arbol.tex","w")
+    base = open("base1.tex","r")
     ftarget.write(base.read())
     base.close()
     ftarget.write(latex_tree)
-    base = file("base2.tex","r")
+    base = open("base2.tex","r")
     ftarget.write(base.read())
     base.close()
     ftarget.close()
