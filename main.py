@@ -12,9 +12,9 @@ from functools import reduce
 import resource
 import sys
 
-latex_tree =""
-
 verbose=sys.stdout.isatty()
+
+latex_tree =""
 
 def childrens_time():
     time = resource.getrusage(resource.RUSAGE_CHILDREN)
@@ -71,6 +71,7 @@ class GenStack(object):
         self.stack.append((generator,count(1),total))
     def next(self):
         global latex_tree
+        global verbose
         result = None
         while result is None or frozenset(result.universe) in self.history:
             try:
@@ -83,6 +84,7 @@ class GenStack(object):
         self.history.add(frozenset(result.universe))
         i = next(self.stack[-1][1])
         total = self.stack[-1][2]
+        agregar=""
         if self.old_total > total:
             self.tabs +=1
         elif self.old_total < total:
@@ -93,8 +95,9 @@ class GenStack(object):
             latex_tree+=("  " * self.tabs)+"]\n"
             
         self.old_total = total
-        latex_tree+=("  " * self.tabs)+"[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(result.universe))
-        print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
+        if verbose:
+            latex_tree+=("  " * self.tabs)+"[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(result.universe))
+            print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
 
