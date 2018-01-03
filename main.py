@@ -96,7 +96,7 @@ class GenStack(object):
             
         self.old_total = total
         if verbose:
-            latex_tree+=("  " * self.tabs)+"[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(result.universe))
+            latex_tree+="  " * self.tabs # dejo los tabs para que se agregue el subset
             print (("Subset %s of %s    \tDiversity:%s" % (i,total,len(self.pp_d)))+30*" ", end="\r")
         return result
 
@@ -123,10 +123,12 @@ def is_open_rel(model, target_rels):
                 break
             iso = is_isomorphic_to_any(current, S, base_rels)
             if iso:
+                latex_tree+="[\\{{%s}\\}\n" % ",".join(str(i) for i in sorted(current.universe))
                 isos_count += 1
                 if not iso.iso_wrt(target_rels):
                     raise Counterexample(iso)
             else:
+                latex_tree+="[\\{{%s}\\},auts\n" % ",".join(str(i) for i in sorted(current.universe))
                 for aut in automorphisms(current,base_rels):
                     auts_count += 1
                     if not aut.aut_wrt(target_rels):
@@ -160,14 +162,14 @@ def is_open_rel(model, target_rels):
     print("  %s calls to Minion" % MinionSol.count)
     print("  Minion total time = %s secs" % childrens_time())
     print("")
-    latex_tree = ("[.\\{%s\\}\n" % ",".join(str(i) for i in sorted(model.universe))) + latex_tree
+    latex_tree = ("[\\{{%s}\\}\n" % ",".join(str(i) for i in sorted(model.universe))) + latex_tree
     latex_tree +="]]\n"
     
     ftarget = open("tree.tex","w")
     base = open("base1.tex","r")
     ftarget.write(base.read())
     base.close()
-    ftarget.write(latex_tree)
+    ftarget.write(latex_tree[:-1])
     base = open("base2.tex","r")
     ftarget.write(base.read())
     base.close()

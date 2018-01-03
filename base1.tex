@@ -15,7 +15,7 @@ A simple tree with a style for all nodes.
 \usepackage[T1]{fontenc}
 
 \usepackage[margin=1in]{geometry}
-\usepackage{tikz-qtree}
+\usepackage{forest}
 \usetikzlibrary{shadows,trees}
 \begin{document}
 %\tikzset{level 1/.style={level distance=36pt}}
@@ -28,8 +28,8 @@ every node/.style=
     shape=rectangle,
     align=center,
     very thick
-    }}
+    },
+auts/.style={double distance=0.3mm}}
 
 \centering
-\begin{tikzpicture}
-\Tree 
+\begin{forest}
