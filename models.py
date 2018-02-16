@@ -43,7 +43,7 @@ class RelationalModel(object):
     def __repr__(self):
         return ("RelationalModel(universe=%s,relations=%s)"%(self.universe,self.relations))
     
-    @lru_cache(maxsize=2)
+    @lru_cache(maxsize=None)
     def rels_sizes(self,subtype):
         return PartialOrderedDict({r:len(self.relations[r]) for r in subtype})
     
