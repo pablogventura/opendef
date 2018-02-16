@@ -4,7 +4,7 @@
 import sys
 from itertools import chain,count
 
-from parser import stdin_parser
+from parser import stdin_parser,stdin_parser_preprocess
 from counterexample import Counterexample
 from minion import is_isomorphic
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
@@ -29,7 +29,7 @@ def main():
     verbose = verbose or options.verbose
     gen_tree=options.gen_tree
         
-    model = stdin_parser()
+    model = stdin_parser_preprocess()
     targets_rel = tuple(sym for sym in model.relations.keys() if sym[0]=="T")
     if not targets_rel:
         print("ERROR: NO TARGET RELATIONS FOUND")

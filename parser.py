@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
+from collections import defaultdict
 
 from models import RelationalModel
 from relations import Relation
+from preprocess import preprocess_seeder, pattern_to_string
 
 #new parser
 from itertools import count
@@ -73,40 +75,43 @@ def stdin_parser():
         except:
             raise ParserError(linenumber,"")
 
-def stdin_parser_old():
+def stdin_parser_preprocess():
     """
-    Returns parsed Rel_Model from stdin
+    preprocess
     """
-    linenumber = 1
-    relations = {}
-    try:
-        universe = [int(i) for i in input().split()] # first line, universe
-        linenumber += 1
-        assert input() == "", ("Line #%s must be empty"%linenumber)
-        linenumber += 1
-        while True:
-            # parsing relations
-            # format:
-            #   symbol number_of_tuples arity
-            #   tuples
-            #   empty line
-            try:
-                sym, ntuples, arity = input().split()
-                linenumber += 1
-            except EOFError:
-                # no more relations found
-                break
-
-            ntuples,arity = int(ntuples),int(arity)
-            print("%s density: %f" % (sym, float(ntuples)/(len(universe)**arity)))
-            relation = Relation(sym,arity)
-            for i in range(ntuples):
-                relation.add(tuple(map(int,input().split())))
-                linenumber += 1
-            assert input() == "", ("Relation must finish with empty line at #%s line"%linenumber) # relation MUST finish with empty line
-            linenumber += 1
-            relations[sym] = relation
-    except EOFError:
-        raise ParserError(linenumber,"Unexpected EOF")
-    
-    return RelationalModel(universe,relations)
+    relations={}
+    current_rel = None
+    rel_missing_tuples= 0
+    universe=None
+    for linenumber in count(1):
+        try:
+            line = c_input()
+            if line:
+                if universe is None:
+                    # tiene que ser el universo!
+                    universe =parse_universe(line)
+                elif current_rel is None:
+                    # empieza una relacion
+                    current_rel,rel_missing_tuples=parse_defrel(line)
+                    # TODO NO CREAR UNA RELACION INUTIL COMO LA ANTERIOR
+                    print("%s density: %f" % (current_rel.sym, float(rel_missing_tuples)/(len(universe)**current_rel.arity)))
+                    master_name = current_rel.sym
+                    current_rel = defaultdict(set)
+                else:
+                    # continua una relacion
+                    pattern, t = preprocess_seeder(parse_tuple(line))
+                    current_rel[pattern].add(t)
+                    rel_missing_tuples-=1
+                    if not rel_missing_tuples:
+                        for pattern in current_rel:
+                            relations[master_name + pattern_to_string(pattern)] = Relation(master_name + pattern_to_string(pattern),len(pattern))
+                            relations[master_name + pattern_to_string(pattern)].r=current_rel[pattern]
+                        current_rel = None
+        except EOFError:
+            if universe is None:
+                raise ParserError(linenumber,"Universe not defined")
+            if current_rel is not None:
+                raise ParserError(linenumber,"Missing tuples for relation %s" % current_rel.sym)
+            return RelationalModel(universe,relations)
+        #except:
+        #    raise ParserError(linenumber,"")
