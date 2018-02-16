@@ -1,65 +1,16 @@
 from collections import defaultdict
 
-def quotient(s,f):
+def preprocess_seeder(t):
     #cociente del conjunto s, por la funcion f
-    result = {e:[e] for e in s}
-    for a in s:
-        if a not in result:
-            continue
-        for b in s:
-            if b not in result or a==b:
-                continue
-            if f(b)==f(a):
-                result[a]+=result[b]
-                del result[b]
-    return result
-    
-def pattern(t):
-    #cociente del conjunto s, por la funcion f
-    result = defaultdict(set)
+    result = defaultdict(list)
     for i,a in enumerate(t):
-        result[a].add(i)
-    return set(frozenset(s) for s in result.values())
+        result[a].append(i)
+    tt=(tuple(k for k in sorted(result.keys(),key=lambda i:result[i][0])))
+    return frozenset(frozenset(s) for s in result.values()),tt
 
-def clean(t):
-    result=set()
-    for e in t:
-        result.add(t.index(e))
-    return sorted(result)
-
-
-def preprocess(T):
-    result = []
-    q = quotient(T,pattern)
-    for p in q:
-        indices=clean(p)
-        result.append(set())
-        for t in q[p]:
-            result[-1].add(tuple(t[i] for i in indices))
-    return result
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+def pattern_to_string(p):
+    result=[]
+    for c in p:
+        result.append("-".join(str(i) for i in c))
+    result="|".join(result)
+    return "|"+result+"|"
