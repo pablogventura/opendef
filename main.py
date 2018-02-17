@@ -24,12 +24,16 @@ def main():
     parser = OptionParser()
     parser.add_option("-v", action="store_true", dest="verbose", help="Verbose mode, default when stdout is a tty")
     parser.add_option("-t", action="store_true", dest="gen_tree", help="Generates 'tree.tex' file with traversed tree")
+    parser.add_option("--no-preprocess", action="store_true", dest="nopreprocess", help="No preprocess base relations")
     (options, args) = parser.parse_args()
     
     verbose = verbose or options.verbose
+    preprocess = not options.nopreprocess
     gen_tree=options.gen_tree
-        
-    model = stdin_parser_preprocess()
+    if preprocess:
+        model = stdin_parser_preprocess()
+    else:
+        model = stdin_parser()
     targets_rel = tuple(sym for sym in model.relations.keys() if sym[0]=="T")
     if not targets_rel:
         print("ERROR: NO TARGET RELATIONS FOUND")
