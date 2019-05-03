@@ -6,7 +6,6 @@ from itertools import chain,count
 
 from parser import stdin_parser,stdin_parser_preprocess
 from counterexample import Counterexample
-from minion import is_isomorphic
 from minion import automorphisms, isomorphisms, is_isomorphic_to_any, MinionSol
 from misc import indent, ncr, childrens_time
 from setsized import SetSized
