@@ -13,7 +13,8 @@ The output will be the answer to definability and if it's not definable, the cou
 
 The first line should contain each element of universe separated by a space and then a empty line. Example:
 
-```0 1 2
+```
+0 1 2
 
 ```
 
